@@ -23,12 +23,7 @@ namespace StuffyCare.Controllers
             return new string[] { "Vendor api is Working" };
         }
 
-        // GET api/<VendorsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+      
         [HttpPost("AddVendor")]
         public string AddVendor([FromBody] Models.Vendors vendors)
         {
@@ -60,22 +55,6 @@ namespace StuffyCare.Controllers
             }
             return status;
         }
-        // POST api/<VendorsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<VendorsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<VendorsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        
     }
 }

@@ -6,10 +6,10 @@ using System.Diagnostics;
 
 namespace StuffyCare.DataLayer.VendorDAO
 {
-    public class VendorDAOImpl:IVendorDAO
+    public class VendorDAOImpl:Connection,IVendorDAO
     {
-        private readonly IConfiguration _configuration;
-        string ConStr = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=StuffyCare;Trusted_Connection=True;";
+        
+        string ConStr = GetConnectionString();
         string IVendorDAO.AddVendor(string email, string pass, string pno)
         {
             var timer = new Stopwatch();
@@ -17,19 +17,32 @@ namespace StuffyCare.DataLayer.VendorDAO
             SqlConnection sqlConnection = new SqlConnection();
             sqlConnection.ConnectionString = ConStr;
             sqlConnection.Open();
-            using (var cmd = new SqlCommand("add_vendor", sqlConnection))
+            try
             {
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Pass", pass);
-                cmd.Parameters.AddWithValue("@pno", pno);
-                var _output = cmd.Parameters.Add("@ret", SqlDbType.VarChar, 100);
-                _output.Direction = ParameterDirection.Output;
-                timer.Start();
-                cmd.ExecuteScalar();
-                timer.Stop();
-                _result = _output.Value.ToString();
+
+                using (var cmd = new SqlCommand("add_vendor", sqlConnection))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Pass", pass);
+                    cmd.Parameters.AddWithValue("@pno", pno);
+                    var _output = cmd.Parameters.Add("@ret", SqlDbType.VarChar, 100);
+                    _output.Direction = ParameterDirection.Output;
+                    timer.Start();
+                    cmd.ExecuteScalar();
+                    timer.Stop();
+                    _result = _output.Value.ToString();
+                }
             }
+            catch (Exception e)
+            {
+                _result = e.Message;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+
             return _result;
         }
 
@@ -41,19 +54,29 @@ namespace StuffyCare.DataLayer.VendorDAO
             //sqlConnection.ConnectionString = _configuration.GetConnectionString("DefaultConnection");
             sqlConnection.ConnectionString = ConStr;
             sqlConnection.Open();
-            using (var cmd = new SqlCommand("vendor_auth", sqlConnection))
+            try
             {
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Pass", pass);
-                var _output = cmd.Parameters.Add("@Role", SqlDbType.VarChar, 20);
-                _output.Direction = ParameterDirection.Output;
-                timer.Start();
-                cmd.ExecuteScalar();
-                timer.Stop();
-                _result = _output.Value.ToString();
+                using (var cmd = new SqlCommand("vendor_auth", sqlConnection))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Pass", pass);
+                    var _output = cmd.Parameters.Add("@Role", SqlDbType.VarChar, 20);
+                    _output.Direction = ParameterDirection.Output;
+                    timer.Start();
+                    cmd.ExecuteScalar();
+                    timer.Stop();
+                    _result = _output.Value.ToString();
+                }
             }
-            sqlConnection.Close();
+            catch (Exception e)
+            {
+                _result = e.Message;
+            }
+            finally {
+                sqlConnection.Close();
+
+            }
             return _result;
         }
     }

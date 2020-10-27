@@ -40,7 +40,6 @@ namespace StuffyCare.Controllers
             try
             {
                 obj = _AdminFacade.GetUser(email);
-                Console.WriteLine("Chandan is Great");
             }
             catch (Exception e)
             {
@@ -62,7 +61,7 @@ namespace StuffyCare.Controllers
         [HttpGet("GetAppointments")]
         public string GetAppointments(string category)
         {
-            Appointments a=null;
+            
             List<Appointments> obj = new List<Appointments>();
             try
             {
@@ -121,7 +120,7 @@ namespace StuffyCare.Controllers
             
         }
         [HttpPost("AuthAdmin")]
-        public string AuthUser([FromBody] Models.Admins admins)
+        public string AuthAdmin([FromBody] Models.Admins admins)
         {
             var status = "Login failed";
             try
@@ -166,16 +165,6 @@ namespace StuffyCare.Controllers
             return status;
         }
 
-        // PUT api/<AdminsController1>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<AdminsController1>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+       
     }
 }

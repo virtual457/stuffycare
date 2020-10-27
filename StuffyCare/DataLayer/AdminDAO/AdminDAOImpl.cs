@@ -10,78 +10,102 @@ using System.Threading.Tasks;
 
 namespace StuffyCare.DataLayer.AdminDAO
 {
-    public class AdminDAOImpl:IAdminDAO
+    public class AdminDAOImpl:Connection,IAdminDAO
     {
         //connection string initialization
         private readonly IConfiguration _configuration;
-        string ConStr = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=StuffyCare;Trusted_Connection=True;";
+        string ConStr = GetConnectionString();
         //Function for Adding admin
         public string AddAdmin(string email, string pass, string pno)
         {
             var timer = new Stopwatch();
             var _result = String.Empty;
             SqlConnection sqlConnection = new SqlConnection();
-            sqlConnection.ConnectionString = ConStr;
-            sqlConnection.Open();
-            using (var cmd = new SqlCommand("admin_create", sqlConnection))
+            try
             {
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Pass", pass);
-                cmd.Parameters.AddWithValue("@pno", pno);
-                var _output = cmd.Parameters.Add("@ret", SqlDbType.VarChar, 100);
-                _output.Direction = ParameterDirection.Output;
-                timer.Start();
-                cmd.ExecuteScalar();
-                timer.Stop();
-                _result = _output.Value.ToString();
+                sqlConnection.ConnectionString = ConStr;
+                sqlConnection.Open();
+                using (var cmd = new SqlCommand("admin_create", sqlConnection))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Pass", pass);
+                    cmd.Parameters.AddWithValue("@pno", pno);
+                    var _output = cmd.Parameters.Add("@ret", SqlDbType.VarChar, 100);
+                    _output.Direction = ParameterDirection.Output;
+                    timer.Start();
+                    cmd.ExecuteScalar();
+                    timer.Stop();
+                    _result = _output.Value.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+
+                _result = e.Message;
+                Console.WriteLine(e.Message);
             }
             return _result;
         }
         //Fuction for Authentication of Admin
         public string Auth(string email, string pass)
         {
-            var timer = new Stopwatch();
-            var _result = String.Empty;
             SqlConnection sqlConnection = new SqlConnection();
-            //sqlConnection.ConnectionString = _configuration.GetConnectionString("DefaultConnection");
-            sqlConnection.ConnectionString = ConStr;
-            sqlConnection.Open();
-            using (var cmd = new SqlCommand("admin_auth", sqlConnection))
+            var _result = String.Empty;
+            try
             {
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Pass", pass);
-                var _output = cmd.Parameters.Add("@Role", SqlDbType.VarChar, 20);
-                _output.Direction = ParameterDirection.Output;
-                timer.Start();
-                cmd.ExecuteScalar();
-                timer.Stop();
-                _result = _output.Value.ToString();
+                //sqlConnection.ConnectionString = _configuration.GetConnectionString("DefaultConnection");
+                sqlConnection.ConnectionString = ConStr;
+                sqlConnection.Open();
+                using (var cmd = new SqlCommand("admin_auth", sqlConnection))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Pass", pass);
+                    var _output = cmd.Parameters.Add("@Role", SqlDbType.VarChar, 20);
+                    _output.Direction = ParameterDirection.Output;
+                    cmd.ExecuteScalar();
+                    _result = _output.Value.ToString();
+                }
             }
-            sqlConnection.Close();
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                _result = e.Message;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
             return _result;
         }
         //Function for getting Appointments by category when category is all, all appointements are retrived else only the category appointments are retrieved
         public List<Appointments> GetAllAppointments(string category)
         {
             List<Appointments> obj= new List<Appointments>();
-            using (SqlConnection conn = new SqlConnection(ConStr))
+            try
             {
-                using (SqlDataAdapter da = new SqlDataAdapter())
+                using (SqlConnection conn = new SqlConnection(ConStr))
                 {
-                    da.SelectCommand = new SqlCommand("get_allappointments", conn);
-                    da.SelectCommand.Parameters.AddWithValue("@category", category);
-                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
-                    
-                    DataSet ds = new DataSet();
-                    da.Fill(ds, "user");
-                    DataTable dt = ds.Tables["user"];
-                    foreach (DataRow row in dt.Rows)
+                    using (SqlDataAdapter da = new SqlDataAdapter())
                     {
-                        obj.Add(new Appointments(Convert.ToInt32(row["aptid"]), row["emailid"].ToString(), row["pno"].ToString(), row["dt"].ToString(), row["tm"].ToString(), row["servicetype"].ToString(), row["address"].ToString(), row["message"].ToString()));
+                        da.SelectCommand = new SqlCommand("get_allappointments", conn);
+                        da.SelectCommand.Parameters.AddWithValue("@category", category);
+                        da.SelectCommand.CommandType = CommandType.StoredProcedure;
+
+                        DataSet ds = new DataSet();
+                        da.Fill(ds, "user");
+                        DataTable dt = ds.Tables["user"];
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            obj.Add(new Appointments(Convert.ToInt32(row["aptid"]), row["emailid"].ToString(), row["pno"].ToString(), row["dt"].ToString(), row["tm"].ToString(), row["servicetype"].ToString(), row["address"].ToString(), row["message"].ToString()));
+                        }
                     }
                 }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
             return obj;
         }
@@ -119,8 +143,7 @@ namespace StuffyCare.DataLayer.AdminDAO
             }
             catch (Exception e)
             {
-                ret = "Could not Add Asppointment";
-                throw e;
+                ret = e.Message;
             }
             return ret;
         }
@@ -130,24 +153,32 @@ namespace StuffyCare.DataLayer.AdminDAO
         {
             Users obj = new Users();
             List<Users> retobj = new List<Users>();
-            using (SqlConnection conn = new SqlConnection(ConStr))
+            try
             {
-                using (SqlDataAdapter da = new SqlDataAdapter())
+                using (SqlConnection conn = new SqlConnection(ConStr))
                 {
-                    da.SelectCommand = new SqlCommand("get_user", conn);
-                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
-                    da.SelectCommand.Parameters.AddWithValue("@email", email);
-                    DataSet ds = new DataSet();
-                    da.Fill(ds, "user");
-                    DataTable dt = ds.Tables["user"];
-                    foreach (DataRow row in dt.Rows)
+                    using (SqlDataAdapter da = new SqlDataAdapter())
                     {
-                        obj.Email = row["email"].ToString();
-                        obj.Pass = row["pass"].ToString();
-                        obj.Pno = row["pno"].ToString();
-                        retobj.Add(obj);
+                        da.SelectCommand = new SqlCommand("get_user", conn);
+                        da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                        da.SelectCommand.Parameters.AddWithValue("@email", email);
+                        DataSet ds = new DataSet();
+                        da.Fill(ds, "user");
+                        DataTable dt = ds.Tables["user"];
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            obj.Email = row["email"].ToString();
+                            obj.Pass = row["pass"].ToString();
+                            obj.Pno = row["pno"].ToString();
+                            retobj.Add(obj);
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                retobj = null;
+                Console.WriteLine(e.Message);
             }
             return retobj;
         }
@@ -155,31 +186,39 @@ namespace StuffyCare.DataLayer.AdminDAO
         {
             Items obj = new Items();
             List<Items> retobj = new List<Items>();
-            using (SqlConnection conn = new SqlConnection(ConStr))
+            try
             {
-                using (SqlDataAdapter da = new SqlDataAdapter())
+                using (SqlConnection conn = new SqlConnection(ConStr))
                 {
-                    da.SelectCommand = new SqlCommand("get_items", conn);
-                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
-                    da.SelectCommand.Parameters.AddWithValue("@itemid",Convert.ToInt32(itemid));
-                    DataSet ds = new DataSet();
-                    da.Fill(ds, "user");
-                    DataTable dt = ds.Tables["user"];
-                    foreach (DataRow row in dt.Rows)
+                    using (SqlDataAdapter da = new SqlDataAdapter())
                     {
-                        obj.Itemid = Convert.ToInt32(row["itemid"]);
-                        obj.Name = row["name"].ToString();
-                        obj.Description = row["description"].ToString();
-                        obj.Category = row["category"].ToString();
-                        obj.Price = float.Parse(row["price"].ToString());
-                        obj.Sku = row["sku"].ToString();
-                        obj.Saleprice = float.Parse(row["saleprice"].ToString());
-                        obj.Quantity = Convert.ToInt32(row["quantity"].ToString());
-                        obj.Moa = Convert.ToInt32(row["moa"].ToString());
-                        obj.Photo = row["photo"].ToString();
-                        retobj.Add(obj);
+                        da.SelectCommand = new SqlCommand("get_items", conn);
+                        da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                        da.SelectCommand.Parameters.AddWithValue("@itemid", Convert.ToInt32(itemid));
+                        DataSet ds = new DataSet();
+                        da.Fill(ds, "user");
+                        DataTable dt = ds.Tables["user"];
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            obj.Itemid = Convert.ToInt32(row["itemid"]);
+                            obj.Name = row["name"].ToString();
+                            obj.Description = row["description"].ToString();
+                            obj.Category = row["category"].ToString();
+                            obj.Price = float.Parse(row["price"].ToString());
+                            obj.Sku = row["sku"].ToString();
+                            obj.Saleprice = float.Parse(row["saleprice"].ToString());
+                            obj.Quantity = Convert.ToInt32(row["quantity"].ToString());
+                            obj.Moa = Convert.ToInt32(row["moa"].ToString());
+                            obj.Photo = row["photo"].ToString();
+                            retobj.Add(obj);
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                retobj = null;
+                Console.WriteLine(e.Message);
             }
             return retobj;
         }
@@ -221,8 +260,8 @@ namespace StuffyCare.DataLayer.AdminDAO
             }
             catch (Exception e)
             {
-                ret = "Could not Add Asppointment";
-                throw e;
+                ret = e.Message;
+                Console.WriteLine(e.Message);
             }
             return ret;
         }
