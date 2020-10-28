@@ -1,5 +1,8 @@
 drop table orders
+drop table items
+drop table appointments
 drop table users
+
 --//////////////////////////////////////////////////////////////////////////
 --Vendors
 --/////////////////////////////////////////////////////////////////////////
@@ -7,13 +10,17 @@ go
 DROP TABLE vendors;
 --creation of Vendor table
 CREATE TABLE vendors (
-	vendorid int not null primary key Identity(1,1),
-	email varchar(200),
+	id int not null Identity(1,1),
+	vendorid AS ('V' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10)) persisted  primary key,
+	email varchar(200) unique,
 	pass varchar(200),
-	pno varchar(10)
+	pno varchar(10) unique,
+	Constraint ven_dup_email unique(email),
+	Constraint ven_dup_phno unique(pno)
 );
 --inserting values to vendor table
-insert into Vendors values('vendor@stuffycare.com','vendor','9945583998')
+insert into vendors values('vendor6@stuffycare.com','vendor','9945563998')
+select * from vendors
 --creation of vendor_auth stored procedure
 DROP PROCEDURE vendor_auth
 go
@@ -42,8 +49,9 @@ BEGIN
 END
 go
 --testing the vendor_auth stored procedure
+select * from vendors
 declare  @output varchar(100)
-exec vendor_auth 'vendor@stuffycare.com','vendor',@output output
+exec vendor_auth 'vendor2@stuffycare.com','vendor2',@output output
 go
 DROP PROCEDURE vendor_create
 go
@@ -76,7 +84,7 @@ END
 go
 --testing vendor_create procedure
 declare  @output varchar(100)
-exec vendor_create 'vendor2@stuffycare.com','vendor2','3547856426',@output output 
+exec vendor_create 'vendor9@stuffycare.com','vendor9','3547856626',@output output 
 go
 select * from vendors
 
@@ -89,9 +97,13 @@ select * from vendors
 
 --creation of user table
 CREATE TABLE users (
-	email varchar(100) primary key,
+	id int not null Identity(1,1),
+	userid AS ('U' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10)) persisted primary key,
+	email varchar(100) unique,
 	pass varchar(100),
-	pno varchar(10)
+	pno varchar(10)unique,
+	Constraint usr_dup_email unique(email),
+	Constraint usr_dup_phno unique(pno)
 );
 
 insert into users values('chandan@gmail.com','chandan','9945583998'),('chandangowda457@gmail.com','chandangowda457','8073598383');
@@ -159,15 +171,15 @@ drop procedure get_user
 go
 --creation of get_user procedure
 Create procedure get_user
-@email varchar(100)
+@userid varchar(100)
 as
 begin
-	if(@email='all')
+	if(@userid='all')
 	begin
 		select * from users
 	end
 	begin
-		select * from users where users.email=@email
+		select * from users where users.userid=@userid
 	end
 end
 go
@@ -178,19 +190,20 @@ go
 declare @lol varchar(200)
 Exec user_auth 'chandan.keelara@gmail.com','chandan.keelara',@lol output
 go
-Exec get_user 'chandan@gmail.com'
+Exec get_user 'U0000000001'
 select * from users
 go
 --////////////////////////////////////////////////////////////////////////////////////////////
 --Appointment part of database begins
 --////////////////////////////////////////////////////////////////////////////////////////////
-drop table appointments
+
 go
 --creation of appointment table
 Create table appointments 
-(
-	aptid int not null primary key Identity(1,1) ,
-	emailid varchar(200),
+(	
+	id int not null Identity(1,1),
+	aptid AS ('Apt' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10))persisted  primary key,
+	userid varchar(11) references users(userid),
 	pno varchar(200),
 	dt date,
 	tm time,
@@ -205,7 +218,7 @@ drop procedure add_appointment
 go
 --creation of add_appointment method
 create procedure add_appointment
-@email varchar(100),
+@userid varchar(100),
 @pno varchar(200),
 @dt date,
 @tm time,
@@ -216,9 +229,9 @@ create procedure add_appointment
 As
 BEGIN
 	set @ret='could not add appointment'
-	if((select email from users where users.email=@email )=@email)
+	if((select userid from users where users.userid=@userid )=@userid)
 		begin
-			insert into appointments values(@email,@pno,convert(date,@dt),convert(time,@tm),@servicetype,@address,@message)
+			insert into appointments values(@userid,@pno,convert(date,@dt),convert(time,@tm),@servicetype,@address,@message)
 			set @ret ='appointment created sucessfully'
 		end
 	else
@@ -230,7 +243,7 @@ END
 go
 declare @lol varchar(200)
 --testing the add_appointemnet procedure
-Exec add_appointment 'chandangowda457@gmail.com','8745698725','20081111','20:10:10','daycare','door no 1119 5th cross 1st main road','My pet is sick again and keeps vomitting',@lol output
+Exec add_appointment 'U0000000001','8745698725','20081111','20:10:10','daycare','door no 1119 5th cross 1st main road','My pet is sick again and keeps vomitting',@lol output
 go
 select * from appointments
 go
@@ -249,7 +262,7 @@ As
 	end
 go
 
-Exec  get_allappointments 'grooming'
+Exec  get_allappointments 'all'
 --////////////////////////////////////////////////////////////////////////////////////////////
 --Admin part of database begins
 --////////////////////////////////////////////////////////////////////////////////////////////
@@ -257,9 +270,13 @@ go
 DROP TABLE admins;
 --creation of admin table
 CREATE TABLE admins (
-	email varchar(200) primary key,
-	pass varchar(200),
-	pno varchar(10)
+	id int not null Identity(1,1),
+	adminid AS ('A' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10)) persisted primary key,
+	email varchar(100) unique,
+	pass varchar(100),
+	pno varchar(10)unique,
+	Constraint dup_email unique(email),
+	Constraint dup_phno unique(pno)
 );
 --inserting values to admin table
 insert into admins values('admin@stuffycare.com','admin','9945583998')
@@ -331,12 +348,13 @@ select * from admins
 --//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 --Items Part of the database
 --/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Drop table items
+
 go
 
 Create table items
 (
-itemid int not null primary key Identity(1,1),
+id int not null Identity(1,1),
+itemid AS ('I' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10)) persisted primary key,
 [name] varchar(100),
 [description] varchar(500),
 category varchar(100),
@@ -352,9 +370,9 @@ go
 drop procedure get_items
 go
 create procedure get_items
-@itemid int
+@itemid varchar(11)
 As
-	if(@itemid=0)
+	if(@itemid='all')
 	begin
 		select * from items
 	end
@@ -366,6 +384,7 @@ go
 drop procedure add_item
 go
 create procedure add_item
+
 @name varchar(100),
 @description varchar(500),
 @category varchar(100),
@@ -380,7 +399,7 @@ create procedure add_item
 as
 begin
 	set @ret='could not add item'
-	if (exists (select email from admins where email=@own) or exists(select email from vendors where email=@own))
+	if (exists (select adminid from admins where adminid=@own) or exists(select vendorid from vendors where vendorid=@own))
 	begin
 	if not exists (select itemid from items where items.[name]=@name)
 		begin
@@ -402,7 +421,7 @@ begin
 end
 go
 declare @ret varchar(100)
-exec add_item 'Comb','used to comb hait of pets','grooming',20.2,'IDK',25.2,10,2,'admin@stuffycare.com','encoded string',@ret output
+exec add_item 'Comb','used to comb hait of pets','grooming',20.2,'IDK',25.2,10,2,'A0000000001','encoded string',@ret output
 select * from items
 go
 --//////////////////////////////////////////////////////////////////////////
@@ -413,9 +432,10 @@ go
 go
 create table orders
 (
-orderid int not null primary key Identity(1,1),
-email varchar(100) references users(email),
-itemid int references items(itemid),
+id int not null Identity(1,1),
+orderid AS ('O' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10)) persisted primary key,
+userid varchar(11) references users(userid),
+itemid varchar(11) references items(itemid),
 dt date,
 quantity int,
 [status] varchar(100),
@@ -426,20 +446,21 @@ go
 drop procedure add_order
 go
 create procedure add_order
-@email varchar(100),
-@itemid int,
+@userid varchar(100),
+@itemid varchar,
 @quantity int,
 @method varchar(100),
 @ret varchar(100) output
 as
 	begin
+	begin tran
 	begin try
 	begin
-		if exists(select email from users where email=@email)
+		if exists(select userid from users where userid=@userid)
 		begin
 			If((select quantity from items where itemid=@itemid)>0)
 				begin
-					insert into orders values(@email,@itemid,GETDATE(),@quantity,'order placed',@method,@quantity*(select saleprice from items where itemid=itemid))
+					insert into orders values(@userid,@itemid,GETDATE(),@quantity,'order placed',@method,@quantity*(select saleprice from items where itemid=itemid))
 					update items 
 					set quantity=items.quantity-@quantity
 					where itemid=@itemid
@@ -456,6 +477,7 @@ as
 		end
 
 	end
+	commit tran
 	end try
 	begin catch
 		set @ret = ERROR_MESSAGE()
@@ -466,8 +488,11 @@ as
 go
 
 declare @ret varchar(100)
-exec add_order 'chandan@gmail.com',1,2,'paypal',@ret output
+
+exec add_order 'U0000000001','I0000000001',2,'paypal',@ret output
 go
+select * from items
+
 drop procedure get_orders
 go
 create procedure get_orders
@@ -493,7 +518,8 @@ drop table authvendors
 go
 create table authvendors
 (
-authvendorsid int not null primary key Identity(1,1),
+id int not null Identity(1,1),
+authvendorsid AS ('VID' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10)) persisted primary key,
 email varchar(100),
 pass varchar(100),
 pno varchar(100)
@@ -511,22 +537,24 @@ create procedure auth_vendoradd
 @ret varchar(100) output
 as
 begin
+	begin transaction t1
 	begin try
-	if exists(select * from authvendors where email=@email and pno=@pno) 
-	begin
-		exec vendor_create @email=@email,@pass=@pass,@pno=@pno,@ret=@ret output
-		delete from authvendors where email=@email
-	end
-	else 
-	begin
-		set @ret = 'Can authorize only req vendors'
-	end
-	select @ret
-	end try
-	begin catch
-		Rollback
-	end catch
-end
+		if exists(select * from authvendors where email=@email and pno=@pno) 
+		begin
+			exec vendor_create @email=@email,@pass=@pass,@pno=@pno,@ret=@ret output
+			delete from authvendors where email=@email
+		end
+		else 
+		begin
+			set @ret = 'Can authorize only req vendors'
+		end
+		select @ret
+		end try
+		begin catch
+			Rollback transaction t1
+		end catch
+		commit transaction t1
+end 
 go
 select * from vendors
 select * from authvendors
@@ -562,7 +590,8 @@ go
 
 Create table vendoritems
 (
-itemid int not null primary key Identity(1,1),
+id int not null Identity(1,1),
+itemid AS ('VIID' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10)) persisted primary key,
 [name] varchar(100),
 [description] varchar(500),
 category varchar(100),
@@ -643,7 +672,7 @@ go
 drop procedure auth_vendoritem
 go
 create procedure auth_vendoritem
-@itemid int,
+@itemid varchar(14),
 @email varchar(100),
 @ret varchar(100) output
 as
@@ -691,26 +720,44 @@ select * from items
 drop procedure update_item_quantity
 go
 create procedure update_item_quantity
-@itemid int,
+@itemid varchar(11),
 @quantity int,
 @own varchar(100),
 @ret varchar(100) output
 as
 begin
-	if((select own from items where itemid=@itemid)=@own)
-	begin
-		update items
-		set quantity=@quantity
-		where itemid=@itemid
-		set @ret = 'updated Quantity sucessfully'
-	end
+	if(exists(select own from items where itemid=@itemid))
+		begin
+		if((select own from items where itemid=@itemid)=@own)
+		begin
+			update items
+			set quantity=@quantity
+			where itemid=@itemid
+			set @ret = 'updated Quantity sucessfully'
+		end
+		else
+		begin
+			set @ret = 'only owner can update quantity'
+		end
+			
+		end
 	else
 	begin
-		set @ret = 'only owner can update quantity'
+		set @ret = 'item no doesnt exist'
 	end
+
+
 	select @ret
 end
 go
 select * from items
 declare @ret varchar(100)
-exec update_item_quantity 1,10,'admin@stuffycare.com',@ret out
+exec update_item_quantity 'I0000000001',8,'admin@stuffycare.com',@ret out
+--////////////////////////////////////////////////////////////////
+--
+--//////////////////////////////////////////////
+select * from users
+select * from vendors
+select * from admins
+select * from items
+select * from orders
