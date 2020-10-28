@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Newtonsoft.Json;
+using StuffyCare.DataLayer;
 using StuffyCare.Facade;
 using StuffyCare.Models;
 
@@ -17,14 +18,13 @@ namespace StuffyCare.Controllers
     public class AdminsController : ControllerBase
     {
         // GET: api/<AdminsController1>
+        private readonly Connection con = new Connection();
         private readonly Admin _AdminFacade = new Admin();
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "Api is working" };
         }
-        
-        // GET api/<AdminsController1>/chandangowda457@gmail.com
         /// <summary>
         /// This api is used to get all details of the registered user in the database
         /// </summary>
@@ -48,7 +48,6 @@ namespace StuffyCare.Controllers
             }
             return obj;
         }
-        // Post api/<AdminController>/GetAppointments/category
         /// <summary>
         /// This api gets all the appointments in that particular category
         /// </summary>
@@ -93,8 +92,6 @@ namespace StuffyCare.Controllers
             string sJSONResponse = JsonConvert.SerializeObject(obj);
             return sJSONResponse;
         }
-
-        // POST api/<AdminsController1>
         /// <summary>
         /// Used to add admin to database
         /// </summary>
@@ -110,7 +107,7 @@ namespace StuffyCare.Controllers
              var status = "Update failed";
              try
              {
-             status = _AdminFacade.Create(admins.Email, admins.Pass, admins.Pno);
+             status = _AdminFacade.Create(admins.Email, con.Encrypt(admins.Pass), admins.Pno);
              }
              catch (Exception e)
              {
@@ -125,7 +122,7 @@ namespace StuffyCare.Controllers
             var status = "Login failed";
             try
             {
-                status = _AdminFacade.Auth(admins.Email, admins.Pass);
+                status = _AdminFacade.Auth(admins.Email, con.Encrypt(admins.Pass));
             }
             catch (Exception e)
             {

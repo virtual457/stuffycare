@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StuffyCare.DataLayer;
 using StuffyCare.Facade;
 using StuffyCare.Models;
 
@@ -16,11 +17,13 @@ namespace StuffyCare.Controllers
     public class UsersController : ControllerBase
     {
         private readonly User _UserFacade = new User();
+        private readonly Connection con = new Connection();
         // GET: api/<UsersController1>
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "Api is working" };
+            var a = con.GenerateEncryptionKey();
+            return new string[] { a };
         }
 
         // GET api/<UsersController1>/5
@@ -48,7 +51,7 @@ namespace StuffyCare.Controllers
             var status = "Update failed";
             try
             {
-                status = _UserFacade.Create(users.Email, users.Pass, users.Pno);
+                status = _UserFacade.Create(users.Email, con.Encrypt(users.Pass), users.Pno);
             }
             catch (Exception e)
             {
@@ -62,7 +65,7 @@ namespace StuffyCare.Controllers
             var status = "Login failed";
             try
             {
-                status = _UserFacade.Auth(users.Email, users.Pass);
+                status = _UserFacade.Auth(users.Email,con.Encrypt( users.Pass));
             }
             catch (Exception e)
             {
