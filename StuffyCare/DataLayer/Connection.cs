@@ -18,6 +18,7 @@ namespace StuffyCare.DataLayer
             var connectionString = config.GetConnectionString("StuffyCareConnectionString");
             return connectionString;
         }
+        
         public string GenerateEncryptionKey()
         {
             string EncryptionKey = string.Empty;

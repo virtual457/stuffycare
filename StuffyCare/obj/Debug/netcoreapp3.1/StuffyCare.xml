@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StuffyCare</name>
+    </assembly>
+    <members>
+        <member name="M:StuffyCare.Controllers.AdminsController.GetUser(System.String)">
+            <summary>
+            This api is used to get all details of the registered user in the database
+            </summary>
+            <param name="userid"></param>
+            <returns>
+            null---if there is no user with the email
+            userobject---the user details of the user inside the object
+            </returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.AdminsController.GetAppointments(System.String)">
+            <summary>
+            This api gets all the appointments in that particular category
+            </summary>
+            <param name="category"></param>
+            <returns>
+            return an list of appointments of the category mentioned 
+            if category==all
+            all appointments are returned
+            </returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.AdminsController.GetItems(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="itemid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.AdminsController.AddAdmin(StuffyCare.Models.Admins)">
+            <summary>
+            Used to add admin to database
+            </summary>
+            <param name="admins"></param>
+            <returns>
+            string update failed -- if admin is not suceesfully added
+            string updated sucessfully--if admin is added sucessfully
+            </returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.AdminsController.AddAppointment(StuffyCare.Models.Appointments)">
+            <summary>
+            
+            </summary>
+            <param name="appointments"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.AdminsController.AddItem(StuffyCare.Models.Items)">
+            <summary>
+            
+            </summary>
+            <param name="items"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

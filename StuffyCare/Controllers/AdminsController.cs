@@ -28,18 +28,18 @@ namespace StuffyCare.Controllers
         /// <summary>
         /// This api is used to get all details of the registered user in the database
         /// </summary>
-        /// <param name="email"></param>
+        /// <param name="userid"></param>
         /// <returns>
         /// null---if there is no user with the email
         /// userobject---the user details of the user inside the object
         /// </returns>
         [HttpGet("GetUser")]
-        public List<Users> GetUser(string email)
+        public List<Users> GetUser(string userid)
         {
             List<Users> obj = new List<Users>();
             try
             {
-                obj = _AdminFacade.GetUser(email);
+                obj = _AdminFacade.GetUser(userid);
             }
             catch (Exception e)
             {
@@ -58,7 +58,7 @@ namespace StuffyCare.Controllers
         /// all appointments are returned
         /// </returns>
         [HttpGet("GetAppointments")]
-        public string GetAppointments(string category)
+        public List<Appointments> GetAppointments(string category)
         {
             
             List<Appointments> obj = new List<Appointments>();
@@ -72,13 +72,18 @@ namespace StuffyCare.Controllers
                 Console.WriteLine(e.Message);
                 obj = null;
             }
-            string sJSONResponse = JsonConvert.SerializeObject(obj);
-            return sJSONResponse;
+
+            return obj;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="itemid"></param>
+        /// <returns></returns>
         [HttpGet("GetItems")]
-        public string GetItems(string itemid)
+        public List<Items> GetItems(string itemid)
         {
-            Items a = null;
+
             List<Items> obj = new List<Items>();
             try
             {
@@ -89,8 +94,7 @@ namespace StuffyCare.Controllers
                 Console.WriteLine(e.Message);
                 obj = null;
             }
-            string sJSONResponse = JsonConvert.SerializeObject(obj);
-            return sJSONResponse;
+            return obj;
         }
         /// <summary>
         /// Used to add admin to database
@@ -131,6 +135,11 @@ namespace StuffyCare.Controllers
             }
             return status;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appointments"></param>
+        /// <returns></returns>
         [HttpPost("AddAppointment")]
         public string AddAppointment([FromBody] Models.Appointments appointments)
         {
@@ -146,6 +155,11 @@ namespace StuffyCare.Controllers
             }
             return status;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
         [HttpPost("AddItem")]
         public string AddItem([FromBody] Models.Items items)
         {

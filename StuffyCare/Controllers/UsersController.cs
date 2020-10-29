@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace StuffyCare.Controllers
     {
         private readonly User _UserFacade = new User();
         private readonly Connection con = new Connection();
+        private readonly StuffyCareContext context = new StuffyCareContext();
+
         // GET: api/<UsersController1>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -27,21 +30,22 @@ namespace StuffyCare.Controllers
         }
 
         // GET api/<UsersController1>/5
-        [HttpGet("GetUser")]
-        public Users GetUser(string email)
+        [HttpGet("GetOrders")]
+        public List<Orders> GetOrders(string userid)
         {
-            Users obj = new Users();
+            List<Orders> listobj = new List<Orders>();
             try
             {
-                obj = _UserFacade.Get(email);
-                Console.WriteLine("Chandan is Great");
+                listobj = (from order in context.Orders
+                           where order.Userid == userid
+                           select order).ToList();
             }
             catch(Exception e) 
             {
                 Console.WriteLine(e.Message);
-                obj = null;
+                listobj = null;
             }
-            return obj;
+            return listobj;
         }
 
         // POST api/<UsersController1>

@@ -1,7 +1,10 @@
+drop table vendoritems
+drop table reveiws
 drop table orders
 drop table items
 drop table appointments
 drop table users
+
 
 --//////////////////////////////////////////////////////////////////////////
 --Vendors
@@ -196,17 +199,15 @@ go
 --////////////////////////////////////////////////////////////////////////////////////////////
 --Appointment part of database begins
 --////////////////////////////////////////////////////////////////////////////////////////////
-
 go
 --creation of appointment table
 Create table appointments 
 (	
-	id int not null Identity(1,1),
-	aptid AS ('Apt' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10))persisted  primary key,
+	id int not null Identity(1,1) primary key,
+	aptid AS ('Apt' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10)),
 	userid varchar(11) references users(userid),
 	pno varchar(200),
-	dt date,
-	tm time,
+	dt datetime,
 	servicetype varchar(100),
 	[address] varchar(100),
 	[message] varchar(100)
@@ -220,8 +221,6 @@ go
 create procedure add_appointment
 @userid varchar(100),
 @pno varchar(200),
-@dt date,
-@tm time,
 @servicetype varchar(100),
 @address varchar(100),
 @message varchar(100),
@@ -231,7 +230,7 @@ BEGIN
 	set @ret='could not add appointment'
 	if((select userid from users where users.userid=@userid )=@userid)
 		begin
-			insert into appointments values(@userid,@pno,convert(date,@dt),convert(time,@tm),@servicetype,@address,@message)
+			insert into appointments values(@userid,@pno,GETDATE(),@servicetype,@address,@message)
 			set @ret ='appointment created sucessfully'
 		end
 	else
@@ -243,7 +242,7 @@ END
 go
 declare @lol varchar(200)
 --testing the add_appointemnet procedure
-Exec add_appointment 'U0000000001','8745698725','20081111','20:10:10','daycare','door no 1119 5th cross 1st main road','My pet is sick again and keeps vomitting',@lol output
+Exec add_appointment 'U0000000001','8745698725','daycare','door no 1119 5th cross 1st main road','My pet is sick again and keeps vomitting',@lol output
 go
 select * from appointments
 go
@@ -263,6 +262,7 @@ As
 go
 
 Exec  get_allappointments 'all'
+select * from appointments
 --////////////////////////////////////////////////////////////////////////////////////////////
 --Admin part of database begins
 --////////////////////////////////////////////////////////////////////////////////////////////
@@ -436,7 +436,7 @@ id int not null Identity(1,1),
 orderid AS ('O' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10)) persisted primary key,
 userid varchar(11) references users(userid),
 itemid varchar(11) references items(itemid),
-dt date,
+dt datetime,
 quantity int,
 [status] varchar(100),
 method varchar(100),
@@ -447,7 +447,7 @@ drop procedure add_order
 go
 create procedure add_order
 @userid varchar(100),
-@itemid varchar,
+@itemid varchar(100),
 @quantity int,
 @method varchar(100),
 @ret varchar(100) output
@@ -491,7 +491,7 @@ declare @ret varchar(100)
 
 exec add_order 'U0000000001','I0000000001',2,'paypal',@ret output
 go
-select * from items
+select * from orders
 
 drop procedure get_orders
 go
@@ -585,7 +585,7 @@ go
 --//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 --auth vendorItems Part of the database
 --/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Drop table vendoritems
+--Drop table vendoritems
 go
 
 Create table vendoritems
@@ -600,7 +600,7 @@ sku varchar(100),
 saleprice float,
 quantity int,
 moa int,
-own varchar(100),
+own varchar(11) references vendors(vendorid),
 photo varchar(max)
 );
 go
@@ -635,7 +635,7 @@ create procedure vendoradd_item
 as
 begin
 	set @ret='could not add item'
-	if exists (select email from vendors where email=@own)
+	if exists (select email from vendors where vendorid=@own)
 	begin
 	if (not exists (select itemid from items where items.[name]=@name) and not exists (select itemid from vendoritems where vendoritems.[name]=@name))
 		begin
@@ -753,6 +753,50 @@ go
 select * from items
 declare @ret varchar(100)
 exec update_item_quantity 'I0000000001',8,'admin@stuffycare.com',@ret out
+--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+--Reveiws part of the database
+--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+--drop table reveiws
+go
+create table reveiws
+(
+id int not null Identity(1,1),
+reveiwid AS ('R' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10)) persisted primary key,
+userid varchar(11) references users(userid),
+itemid varchar(11) references items(itemid),
+dt datetime,
+[title] varchar(200),
+[description] varchar(max),
+stars float,
+)
+go
+drop procedure add_reveiw
+go
+create procedure add_reveiw
+@userid varchar(11),
+@itemid varchar(11),
+@title varchar(200),
+@description varchar(max),
+@stars float,
+@ret varchar(200) out
+as
+begin
+	if (exists(select itemid from items where items.itemid=@itemid))
+	begin
+		if(exists(select userid from users where users.userid=@userid ))
+		begin
+			insert into reveiws values(@userid,@itemid,GETDATE(),@title,@description,@stars)
+		end
+		else
+		begin
+			set @ret = 'Userid doesnt exist'
+		end
+	end
+	else
+		begin
+			set @ret='Item id doesnt exist'
+		end
+end
 --////////////////////////////////////////////////////////////////
 --
 --//////////////////////////////////////////////
@@ -761,3 +805,4 @@ select * from vendors
 select * from admins
 select * from items
 select * from orders
+select * from appointments
