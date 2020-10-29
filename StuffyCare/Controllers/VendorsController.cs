@@ -19,11 +19,20 @@ namespace StuffyCare.Controllers
         private readonly Vendor _VendorFacade = new Vendor();
         private readonly Connection con = new Connection();
         // GET: api/<VendorsController>
+        /// <summary>
+        /// simple api to check wheather its working or not
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "Vendor api is Working" };
         }
+        /// <summary>
+        /// Api to add vendors to vendor auth table
+        /// </summary>
+        /// <param name="vendors"></param>
+        /// <returns></returns>
         [HttpPost("AddVendor")]
         public string AddVendor([FromBody] Models.Vendors vendors)
         {
@@ -40,6 +49,11 @@ namespace StuffyCare.Controllers
             return status;
 
         }
+        /// <summary>
+        /// Api to authenticate vendors
+        /// </summary>
+        /// <param name="vendors"></param>
+        /// <returns></returns>
         [HttpPost("AuthVendor")]
         public string AuthVendor([FromBody] Models.Vendors vendors)
         {

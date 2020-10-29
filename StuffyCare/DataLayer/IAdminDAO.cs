@@ -17,5 +17,6 @@ namespace StuffyCare.DataLayer.AdminDAO
         public string AddAppointments(Appointments appointments);
         public string AddItem(Items item);
         public List<Items> GetItem(string itemid);
+        public List<Orders> GetOrders(string vendorid);
     }
 }

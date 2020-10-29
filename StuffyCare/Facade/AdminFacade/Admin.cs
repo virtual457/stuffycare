@@ -38,5 +38,9 @@ namespace StuffyCare.Facade
         {
             return AdminDao.GetItem(itemid);
         }
+        public List<Orders> GetOrders(string vendorid)
+        {
+            return AdminDao.GetOrders(vendorid);
+        }
     }
 }

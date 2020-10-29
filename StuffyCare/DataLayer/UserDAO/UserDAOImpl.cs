@@ -16,6 +16,11 @@ namespace StuffyCare.DataLayer.UserDAO
     {
         
         string ConStr = GetConnectionString();
+        private readonly StuffyCareContext context;
+        public UserDAOImpl()
+        {
+            context = new StuffyCareContext();
+        }
         public string AddUser(string email,string pass,string pno)
         {
             var timer = new Stopwatch();
@@ -84,29 +89,34 @@ namespace StuffyCare.DataLayer.UserDAO
             }
             return _result;
         }
-        public Users GetUser(string email)
+
+        public List<Orders> GetOrder(string userid)
+        {
+            List<Orders> retobj = new List<Orders>();
+            try
+            {
+                
+                retobj = (from user in context.Orders
+                          where user.Userid == userid
+                          select user
+                            ).ToList();
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return retobj;
+        }
+
+        public Users GetUser(string emailid)
         {
             Users obj = new Users();
             try
             {
-                using (SqlConnection conn = new SqlConnection(ConStr))
-                {
-                    using (SqlDataAdapter da = new SqlDataAdapter())
-                    {
-                        da.SelectCommand = new SqlCommand("get_user", conn);
-                        da.SelectCommand.CommandType = CommandType.StoredProcedure;
-                        da.SelectCommand.Parameters.AddWithValue("@email", email);
-                        DataSet ds = new DataSet();
-                        da.Fill(ds, "user");
-                        DataTable dt = ds.Tables["user"];
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            obj.Email = row["email"].ToString();
-                            obj.Pass = row["pass"].ToString();
-                            obj.Pno = row["pno"].ToString();
-                        }
-                    }
-                }
+                obj = (from user in context.Users
+                       where user.Email == emailid
+                       select user).FirstOrDefault();
             }
             catch(Exception e)
             {
@@ -114,6 +124,25 @@ namespace StuffyCare.DataLayer.UserDAO
                 obj = null;
             }
             return obj;
+        }
+
+        public List<Appointments> GetAppointments(string userid)
+        {
+            List<Appointments> retobj = new List<Appointments>();
+            try
+            {
+
+                retobj = (from user in context.Appointments
+                          where user.Userid == userid
+                          select user
+                            ).ToList();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return retobj;
         }
     }
 }

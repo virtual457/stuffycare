@@ -19,9 +19,18 @@ namespace StuffyCare.Facade
         {
             return UserDao.AddUser(email, pass, pno);
         }
-        public Users Get(string email)
+        public List<Orders> GetOrders(string userid)
         {
-            return UserDao.GetUser(email);
+            return UserDao.GetOrder(userid);
         }
+        public Users GetUser(string emailid)
+        {
+            return UserDao.GetUser(emailid);
+        }
+        public List<Appointments> GetAppointments(string userid)
+        {
+            return UserDao.GetAppointments(userid);
+        }
+
     }
 }

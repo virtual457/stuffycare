@@ -273,6 +273,34 @@ namespace StuffyCare.DataLayer.AdminDAO
             }
             return ret;
         }
+
+        public List<Orders> GetOrders(string vendorid)
+        {
+            List<Orders> listobj = new List<Orders>();
+            try
+            {
+                if (vendorid == "all")
+                {
+                    listobj = (from order in context.Orders
+                               select order).ToList();
+                }
+                else
+                {
+                    listobj = (from order in context.Orders
+                               join item in context.Items
+                               on order.Itemid equals item.Itemid
+                               where item.Own == vendorid
+                               select order
+                             ).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                listobj = null;
+            }
+            return listobj;
+        }
     }
     
 }

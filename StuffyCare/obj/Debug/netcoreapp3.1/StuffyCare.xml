@@ -4,6 +4,12 @@
         <name>StuffyCare</name>
     </assembly>
     <members>
+        <member name="M:StuffyCare.Controllers.AdminsController.Get">
+            <summary>
+            Simple api to check wheather the controller is working or not
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:StuffyCare.Controllers.AdminsController.GetUser(System.String)">
             <summary>
             This api is used to get all details of the registered user in the database
@@ -27,9 +33,16 @@
         </member>
         <member name="M:StuffyCare.Controllers.AdminsController.GetItems(System.String)">
             <summary>
-            
+            Api to get items by the item id if all is passed all items are returned
             </summary>
             <param name="itemid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.AdminsController.GetOrders(System.String)">
+            <summary>
+            Gets all orders if all is passed or orders of the vendor if vendor id is passed
+            </summary>
+            <param name="vendorid"></param>
             <returns></returns>
         </member>
         <member name="M:StuffyCare.Controllers.AdminsController.AddAdmin(StuffyCare.Models.Admins)">
@@ -42,18 +55,86 @@
             string updated sucessfully--if admin is added sucessfully
             </returns>
         </member>
+        <member name="M:StuffyCare.Controllers.AdminsController.AuthAdmin(StuffyCare.Models.Admins)">
+            <summary>
+            Api to authencticate admin returns login sucessfull if details are correct
+            </summary>
+            <param name="admins"></param>
+            <returns></returns>
+        </member>
         <member name="M:StuffyCare.Controllers.AdminsController.AddAppointment(StuffyCare.Models.Appointments)">
             <summary>
-            
+            Api to add appointments
             </summary>
             <param name="appointments"></param>
             <returns></returns>
         </member>
         <member name="M:StuffyCare.Controllers.AdminsController.AddItem(StuffyCare.Models.Items)">
             <summary>
-            
+            Api to add item to database returns a string signifying the status of the addition
             </summary>
             <param name="items"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.Get">
+            <summary>
+            TO check api is working or not
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.GetOrders(System.String)">
+            <summary>
+            Api to get orders placed by that user
+            </summary>
+            <param name="userid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.GetUser(System.String)">
+            <summary>
+            To retreive the current details of the user
+            </summary>
+            <param name="emailid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.GetAppointments(System.String)">
+            <summary>
+            Api to get all the appointments placed by the User
+            </summary>
+            <param name="userid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.AddUser(StuffyCare.Models.Users)">
+            <summary>
+            Post request to add user to the user table
+            </summary>
+            <param name="users"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.AuthUser(StuffyCare.Models.Users)">
+            <summary>
+            post request to authenticate user
+            </summary>
+            <param name="users"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.VendorsController.Get">
+            <summary>
+            simple api to check wheather its working or not
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.VendorsController.AddVendor(StuffyCare.Models.Vendors)">
+            <summary>
+            Api to add vendors to vendor auth table
+            </summary>
+            <param name="vendors"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.VendorsController.AuthVendor(StuffyCare.Models.Vendors)">
+            <summary>
+            Api to authenticate vendors
+            </summary>
+            <param name="vendors"></param>
             <returns></returns>
         </member>
     </members>

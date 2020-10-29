@@ -20,6 +20,10 @@ namespace StuffyCare.Controllers
         // GET: api/<AdminsController1>
         private readonly Connection con = new Connection();
         private readonly Admin _AdminFacade = new Admin();
+        /// <summary>
+        /// Simple api to check wheather the controller is working or not
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<string> Get()
         {
@@ -76,7 +80,7 @@ namespace StuffyCare.Controllers
             return obj;
         }
         /// <summary>
-        /// 
+        /// Api to get items by the item id if all is passed all items are returned
         /// </summary>
         /// <param name="itemid"></param>
         /// <returns></returns>
@@ -88,6 +92,27 @@ namespace StuffyCare.Controllers
             try
             {
                 obj = _AdminFacade.GetItems(itemid);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                obj = null;
+            }
+            return obj;
+        }
+        /// <summary>
+        /// Gets all orders if all is passed or orders of the vendor if vendor id is passed
+        /// </summary>
+        /// <param name="vendorid"></param>
+        /// <returns></returns>
+        [HttpGet("GetOrders")]
+        public List<Orders> GetOrders(string vendorid)
+        {
+
+            List<Orders> obj = new List<Orders>();
+            try
+            {
+                obj = _AdminFacade.GetOrders(vendorid);
             }
             catch (Exception e)
             {
@@ -120,6 +145,11 @@ namespace StuffyCare.Controllers
              return status;
             
         }
+        /// <summary>
+        /// Api to authencticate admin returns login sucessfull if details are correct
+        /// </summary>
+        /// <param name="admins"></param>
+        /// <returns></returns>
         [HttpPost("AuthAdmin")]
         public string AuthAdmin([FromBody] Models.Admins admins)
         {
@@ -136,7 +166,7 @@ namespace StuffyCare.Controllers
             return status;
         }
         /// <summary>
-        /// 
+        /// Api to add appointments
         /// </summary>
         /// <param name="appointments"></param>
         /// <returns></returns>
@@ -156,7 +186,7 @@ namespace StuffyCare.Controllers
             return status;
         }
         /// <summary>
-        /// 
+        /// Api to add item to database returns a string signifying the status of the addition
         /// </summary>
         /// <param name="items"></param>
         /// <returns></returns>
