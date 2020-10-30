@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StuffyCare.ApiModels
+namespace StuffyCare.EFModels
 {
     public partial class Authvendors
     {

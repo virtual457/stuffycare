@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using StuffyCare.DataLayer;
-using StuffyCare.Models;
+using StuffyCare.EFModels;
 
 namespace StuffyCare.Facade
 {
@@ -27,10 +27,14 @@ namespace StuffyCare.Facade
         {
             return UserDao.GetUser(emailid);
         }
-        public List<Appointments> GetAppointments(string userid)
-        {
-            return UserDao.GetAppointments(userid);
-        }
 
+        public string AddAppointments(Appointments userid)
+        {
+            return UserDao.AddAppointments(userid);
+        }
+        public List<Appointments> GetAppointments(string userid, string petid)
+        {
+            return UserDao.GetAppointments(userid, petid);
+        }
     }
 }

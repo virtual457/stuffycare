@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace StuffyCare.ApiModels
+namespace StuffyCare.EFModels
 {
     public partial class Admins
     {

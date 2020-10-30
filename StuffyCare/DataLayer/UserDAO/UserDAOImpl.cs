@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+using StuffyCare.EFModels;
 using StuffyCare.Facade;
-using StuffyCare.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -126,23 +127,69 @@ namespace StuffyCare.DataLayer.UserDAO
             return obj;
         }
 
-        public List<Appointments> GetAppointments(string userid)
+
+        public string AddAppointments(Appointments appointments)
         {
-            List<Appointments> retobj = new List<Appointments>();
+            string ret = "Could not Add Appointment";
             try
             {
+                var timer = new Stopwatch();
+                var res = String.Empty;
+                using (SqlConnection sqlConnection = new SqlConnection())
+                {
+                    //sqlConnection.ConnectionString = _configuration.GetConnectionString("DefaultConnection");
+                    sqlConnection.ConnectionString = ConStr;
+                    sqlConnection.Open();
+                    using (var cmd = new SqlCommand("add_appointment", sqlConnection))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@userid", appointments.Userid);
+                        cmd.Parameters.AddWithValue("@pno", appointments.Pno);
+                        
 
-                retobj = (from user in context.Appointments
-                          where user.Userid == userid
-                          select user
-                            ).ToList();
-
+                        cmd.Parameters.AddWithValue("@servicetype", appointments.Servicetype);
+                        cmd.Parameters.AddWithValue("@address", appointments.Address);
+                        cmd.Parameters.AddWithValue("@message", appointments.Message);
+                        var _output = cmd.Parameters.Add("@ret", SqlDbType.VarChar, 100);
+                        _output.Direction = ParameterDirection.Output;
+                        timer.Start();
+                        cmd.ExecuteScalar();
+                        timer.Stop();
+                        ret = _output.Value.ToString();
+                    }
+                }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                ret = e.Message;
             }
-            return retobj;
+            return ret;
+        }
+
+        public List<Appointments> GetAppointments(string userid, string petid)
+        {
+            var listobj = new List<Appointments>();
+            try
+            {
+                if (petid == "all")
+                {
+                    listobj = (from apt in context.Appointments
+                               where apt.Userid == userid
+                               select apt).ToList();
+                }
+                else
+                {
+                    listobj = (from apt in context.Appointments
+                               where apt.Userid == userid && apt.Petid==petid
+                               select apt).ToList();
+                }
+            }
+            catch(Exception e)
+            {
+                listobj = null;
+                throw e;
+            }
+            return listobj;
         }
     }
 }

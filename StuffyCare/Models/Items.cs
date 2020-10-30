@@ -5,11 +5,7 @@ namespace StuffyCare.Models
 {
     public partial class Items
     {
-        public Items()
-        {
-            Orders = new HashSet<Orders>();
-            Reveiws = new HashSet<Reveiws>();
-        }
+        
 
         public int Id { get; set; }
         public string Itemid { get; set; }
@@ -24,7 +20,6 @@ namespace StuffyCare.Models
         public string Own { get; set; }
         public string Photo { get; set; }
 
-        public virtual ICollection<Orders> Orders { get; set; }
-        public virtual ICollection<Reveiws> Reveiws { get; set; }
+        
     }
 }

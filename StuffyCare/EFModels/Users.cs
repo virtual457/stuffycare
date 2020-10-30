@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StuffyCare.ApiModels
+namespace StuffyCare.EFModels
 {
     public partial class Users
     {
@@ -9,6 +9,8 @@ namespace StuffyCare.ApiModels
         {
             Appointments = new HashSet<Appointments>();
             Orders = new HashSet<Orders>();
+            Pets = new HashSet<Pets>();
+            Reveiws = new HashSet<Reveiws>();
         }
 
         public int Id { get; set; }
@@ -19,5 +21,7 @@ namespace StuffyCare.ApiModels
 
         public virtual ICollection<Appointments> Appointments { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }
+        public virtual ICollection<Pets> Pets { get; set; }
+        public virtual ICollection<Reveiws> Reveiws { get; set; }
     }
 }

@@ -1,8 +1,12 @@
 drop table vendoritems
+drop table appointments
+drop table pets
+drop table cart
+drop table wishlist
 drop table reveiws
 drop table orders
 drop table items
-drop table appointments
+
 drop table users
 
 
@@ -33,19 +37,19 @@ CREATE PROCEDURE vendor_auth
 @Role varchar(20) output
 As
 BEGIN
-	IF EXISTS(select * from vendors where email=@Email and pass=@Pass)
+	IF (EXISTS(select * from vendors where email=@Email and pass=@Pass)or exists(select * from vendors where pno=@Email and pass=@Pass))
 	Begin
 		set @Role='Logged in successfully'
 	End
 	Else
 	Begin
-		IF EXISTS(select * from vendors where email=@Email)
+		IF (EXISTS(select * from vendors where email=@Email)or exists(select * from vendors where pno=@Email))
 		Begin
 			set @Role='Incorrect Password'
 		end
 		else
 		Begin
-			set @Role='Incorrect Email'
+			set @Role='Incorrect Email or Phone number'
 		end
 	end
 	select @Role
@@ -196,6 +200,39 @@ go
 Exec get_user 'U0000000001'
 select * from users
 go
+--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+--Pets part of the database
+--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go
+create table pets
+(
+id int not null Identity(1,1),
+petid AS ('PET' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10)) persisted primary key,
+userid varchar(11) references users(userid),
+[name] varchar(200),
+dob datetime,
+)
+go
+drop procedure add_pet
+go
+create procedure add_pet
+@userid varchar(11),
+@name varchar(11),
+@dob varchar(100),
+@ret varchar(200) out
+as
+begin
+		if(exists(select userid from users where users.userid=@userid ))
+		begin
+			insert into pets values(@userid,@name,convert(datetime,@dob))
+		end
+		else
+		begin
+			set @ret = 'Userid doesnt exist'
+		end
+end
+
 --////////////////////////////////////////////////////////////////////////////////////////////
 --Appointment part of database begins
 --////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,6 +243,7 @@ Create table appointments
 	id int not null Identity(1,1) primary key,
 	aptid AS ('Apt' + RIGHT('0000000000' + CAST(id AS VARCHAR(10)),10)),
 	userid varchar(11) references users(userid),
+	petid varchar(13) references pets(petid),
 	pno varchar(200),
 	dt datetime,
 	servicetype varchar(100),
@@ -220,6 +258,7 @@ go
 --creation of add_appointment method
 create procedure add_appointment
 @userid varchar(100),
+@petid varchar(100),
 @pno varchar(200),
 @servicetype varchar(100),
 @address varchar(100),
@@ -230,8 +269,15 @@ BEGIN
 	set @ret='could not add appointment'
 	if((select userid from users where users.userid=@userid )=@userid)
 		begin
-			insert into appointments values(@userid,@pno,GETDATE(),@servicetype,@address,@message)
-			set @ret ='appointment created sucessfully'
+		IF exists(select petid from pets where pets.userid=@userid)
+			begin
+				insert into appointments values(@userid,@petid,@pno,GETDATE(),@servicetype,@address,@message)
+				set @ret ='appointment created sucessfully'
+			end
+		else
+			begin
+				set @ret ='Pet id is incorrect'
+			end
 		end
 	else
 		begin
@@ -242,7 +288,13 @@ END
 go
 declare @lol varchar(200)
 --testing the add_appointemnet procedure
-Exec add_appointment 'U0000000001','8745698725','daycare','door no 1119 5th cross 1st main road','My pet is sick again and keeps vomitting',@lol output
+select * from appointments
+declare @ret varchar(100)
+exec add_pet 'U0000000001','doggy','20200202 00:00:00',@ret out
+go
+declare @ret varchar(100)
+
+Exec add_appointment 'U0000000001','PET0000000001','8745698725','daycare','door no 1119 5th cross 1st main road','My pet is sick again and keeps vomitting',@ret output
 go
 select * from appointments
 go
@@ -797,12 +849,38 @@ begin
 			set @ret='Item id doesnt exist'
 		end
 end
+
+--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+--wishlist part of the database
+--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+--drop table reveiws
+go
+create table wishlist
+(
+userid varchar(11) references users(userid),
+itemid varchar(11) references items(itemid)
+)
+go
+--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+--cart part of the database
+--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+--drop table reveiws
+go
+create table cart
+(
+userid varchar(11) references users(userid),
+itemid varchar(11) references items(itemid),
+quantity int
+)
+go
 --////////////////////////////////////////////////////////////////
 --
 --//////////////////////////////////////////////
+
 select * from users
 select * from vendors
 select * from admins
 select * from items
 select * from orders
 select * from appointments
+select * from pets

@@ -1,5 +1,5 @@
 ﻿using StuffyCare.DataLayer;
-using StuffyCare.Models;
+using StuffyCare.EFModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -96,7 +96,7 @@
             <param name="emailid"></param>
             <returns></returns>
         </member>
-        <member name="M:StuffyCare.Controllers.UsersController.GetAppointments(System.String)">
+        <member name="M:StuffyCare.Controllers.UsersController.GetAppointments(System.String,System.String)">
             <summary>
             Api to get all the appointments placed by the User
             </summary>

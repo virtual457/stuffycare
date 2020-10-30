@@ -7,7 +7,7 @@ namespace StuffyCare.Models
     {
         public Vendors()
         {
-            Vendoritems = new HashSet<Vendoritems>();
+
         }
 
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace StuffyCare.Models
         public string Pass { get; set; }
         public string Pno { get; set; }
 
-        public virtual ICollection<Vendoritems> Vendoritems { get; set; }
+ 
     }
 }

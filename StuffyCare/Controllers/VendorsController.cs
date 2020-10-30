@@ -60,6 +60,10 @@ namespace StuffyCare.Controllers
             var status = "Login failed";
             try
             {
+                if (vendors.Email == "")
+                {
+                    vendors.Email = vendors.Pno;
+                }
                 status = _VendorFacade.AuthVendor(vendors.Email,con.Encrypt( vendors.Pass));
             }
             catch (Exception e)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Infrastructure.Design;
 using System.Linq;
 using System.Threading.Tasks;
+using StuffyCare.EFModels;
 
 namespace StuffyCare
 {
@@ -13,14 +14,14 @@ namespace StuffyCare
         public MappingProfile()
         {
             // Add as many of these lines as you need to map your objects
-            CreateMap<Admins, ApiModels.Admins>();
-            CreateMap<Users, ApiModels.Users>();
-            CreateMap<Vendors, ApiModels.Vendors>();
-            CreateMap<Items, ApiModels.Items>();
-            CreateMap<Orders, ApiModels.Orders>();
-            CreateMap<Vendoritems, ApiModels.Vendoritems>();
-            CreateMap<Authvendors, ApiModels.Authvendors>();
-            CreateMap<Appointments, ApiModels.Appointments>();
+            CreateMap<EFModels.Admins, Models.Admins>();
+            CreateMap<EFModels.Users, Models.Users>();
+            CreateMap<EFModels.Vendors, Models.Vendors>();
+            CreateMap<EFModels.Items, Models.Items>();
+            CreateMap<EFModels.Orders, Models.Orders>();
+            CreateMap<EFModels.Vendoritems, Models.Vendoritems>();
+            CreateMap<EFModels.Authvendors, Models.Authvendors>();
+            CreateMap<EFModels.Appointments, Models.Appointments>();
 
 
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StuffyCare.Models
+namespace StuffyCare.EFModels
 {
     public partial class Orders
     {
@@ -15,6 +15,7 @@ namespace StuffyCare.Models
         public string Method { get; set; }
         public double? Total { get; set; }
 
-        
+        public virtual Items Item { get; set; }
+        public virtual Users User { get; set; }
     }
 }

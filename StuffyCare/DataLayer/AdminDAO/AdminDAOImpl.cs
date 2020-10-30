@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using StuffyCare.Models;
+using StuffyCare.EFModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -300,6 +300,23 @@ namespace StuffyCare.DataLayer.AdminDAO
                 listobj = null;
             }
             return listobj;
+        }
+
+        public List<Orders> RecentOrders(int num)
+        {
+            var Listobj = new List<Orders>();
+            try
+            {
+                Listobj = (from order in context.Orders
+                           orderby order.Dt
+                           select order).Take(num).ToList();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            return Listobj;
         }
     }
     

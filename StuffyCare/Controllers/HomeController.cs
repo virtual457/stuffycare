@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StuffyCare.Facade;
-using StuffyCare.Models;
+using StuffyCare.EFModels;
 
 namespace StuffyCare.Controllers
 {

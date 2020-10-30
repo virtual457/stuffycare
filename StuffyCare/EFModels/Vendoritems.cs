@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StuffyCare.ApiModels
+namespace StuffyCare.EFModels
 {
-    public partial class Items
+    public partial class Vendoritems
     {
-        public Items()
-        {
-            Orders = new HashSet<Orders>();
-        }
-
         public int Id { get; set; }
         public string Itemid { get; set; }
         public string Name { get; set; }
@@ -23,6 +18,6 @@ namespace StuffyCare.ApiModels
         public string Own { get; set; }
         public string Photo { get; set; }
 
-        public virtual ICollection<Orders> Orders { get; set; }
+        public virtual Vendors OwnNavigation { get; set; }
     }
 }

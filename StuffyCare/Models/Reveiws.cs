@@ -14,7 +14,6 @@ namespace StuffyCare.Models
         public string Description { get; set; }
         public double? Stars { get; set; }
 
-        public virtual Items Item { get; set; }
-        public virtual Users User { get; set; }
+ 
     }
 }

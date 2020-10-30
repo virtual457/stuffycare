@@ -18,6 +18,5 @@ namespace StuffyCare.Models
         public string Own { get; set; }
         public string Photo { get; set; }
 
-        public virtual Vendors OwnNavigation { get; set; }
     }
 }

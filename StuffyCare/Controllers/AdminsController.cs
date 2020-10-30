@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Newtonsoft.Json;
 using StuffyCare.DataLayer;
+using StuffyCare.EFModels;
 using StuffyCare.Facade;
 using StuffyCare.Models;
 
@@ -20,6 +22,11 @@ namespace StuffyCare.Controllers
         // GET: api/<AdminsController1>
         private readonly Connection con = new Connection();
         private readonly Admin _AdminFacade = new Admin();
+        private readonly IMapper _mapper;
+        public AdminsController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
         /// <summary>
         /// Simple api to check wheather the controller is working or not
         /// </summary>
@@ -38,12 +45,20 @@ namespace StuffyCare.Controllers
         /// userobject---the user details of the user inside the object
         /// </returns>
         [HttpGet("GetUser")]
-        public List<Users> GetUser(string userid)
+        public List<Models.Users> GetUser(string userid)
         {
-            List<Users> obj = new List<Users>();
+            List<Models.Users> obj = new List<Models.Users>();
             try
             {
-                obj = _AdminFacade.GetUser(userid);
+                var repobj = _AdminFacade.GetUser(userid);
+                if (repobj != null)
+                {
+                    foreach (var user in repobj)
+                    {
+                        Models.Users userObj = _mapper.Map<Models.Users>(user);
+                        obj.Add(userObj);
+                    }                
+                }
             }
             catch (Exception e)
             {
@@ -62,14 +77,23 @@ namespace StuffyCare.Controllers
         /// all appointments are returned
         /// </returns>
         [HttpGet("GetAppointments")]
-        public List<Appointments> GetAppointments(string category)
+        public List<Models.Appointments> GetAppointments(string category)
         {
             
-            List<Appointments> obj = new List<Appointments>();
+            List<Models.Appointments> obj = new List<Models.Appointments>();
             try
             {
-                obj = _AdminFacade.GetAppointments(category);
                 
+                var repobj =_AdminFacade.GetAppointments(category);
+                if (repobj != null)
+                {
+                    foreach (var order in repobj)
+                    {
+                        Models.Appointments userObj = _mapper.Map<Models.Appointments>(order);
+                        obj.Add(userObj);
+                    }
+                }
+
             }
             catch (Exception e)
             {
@@ -85,13 +109,22 @@ namespace StuffyCare.Controllers
         /// <param name="itemid"></param>
         /// <returns></returns>
         [HttpGet("GetItems")]
-        public List<Items> GetItems(string itemid)
+        public List<Models.Items> GetItems(string itemid)
         {
 
-            List<Items> obj = new List<Items>();
+            List<Models.Items> obj = new List<Models.Items>();
             try
             {
-                obj = _AdminFacade.GetItems(itemid);
+                
+                var repobj = _AdminFacade.GetItems(itemid);
+                if (repobj != null)
+                {
+                    foreach (var order in repobj)
+                    {
+                        Models.Items userObj = _mapper.Map<Models.Items>(order);
+                        obj.Add(userObj);
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -106,13 +139,22 @@ namespace StuffyCare.Controllers
         /// <param name="vendorid"></param>
         /// <returns></returns>
         [HttpGet("GetOrders")]
-        public List<Orders> GetOrders(string vendorid)
+        public List<Models.Orders> GetOrders(string vendorid)
         {
 
-            List<Orders> obj = new List<Orders>();
+            List<Models.Orders> obj = new List<Models.Orders>();
             try
             {
-                obj = _AdminFacade.GetOrders(vendorid);
+                
+                var repobj = _AdminFacade.GetOrders(vendorid);
+                if (repobj != null)
+                {
+                    foreach (var order in repobj)
+                    {
+                        Models.Orders userObj = _mapper.Map<Models.Orders>(order);
+                        obj.Add(userObj);
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -156,6 +198,10 @@ namespace StuffyCare.Controllers
             var status = "Login failed";
             try
             {
+                if (admins.Email == "")
+                {
+                    admins.Email = admins.Pno;
+                }
                 status = _AdminFacade.Auth(admins.Email, con.Encrypt(admins.Pass));
             }
             catch (Exception e)
@@ -176,7 +222,20 @@ namespace StuffyCare.Controllers
             var status = "Adding appointment failed";
             try
             {
-                status = _AdminFacade.AddAppointments(appointments);
+                var app = new EFModels.Appointments()
+                {
+                    Aptid = appointments.Aptid,
+                    Servicetype = appointments.Servicetype,
+                    Dt = appointments.Dt,
+                    Address = appointments.Address,
+                    Id = appointments.Id,
+                    Message = appointments.Message,
+                    Pno = appointments.Pno,
+                    Userid = appointments.Userid
+                }
+                ;
+
+                status = _AdminFacade.AddAppointments(app);
             }
             catch (Exception e)
             {
@@ -196,7 +255,11 @@ namespace StuffyCare.Controllers
             var status = "Adding item failed";
             try
             {
-                status = _AdminFacade.AddItem(items);
+                
+                EFModels.Items userObj = _mapper.Map<EFModels.Items>(items);
+                
+                 
+                status = _AdminFacade.AddItem(userObj);
             }
             catch (Exception e)
             {

@@ -5,8 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StuffyCare.DataLayer;
+using StuffyCare.EFModels;
 using StuffyCare.Facade;
-using StuffyCare.Models;
+using StuffyCare;
+using AutoMapper;
+
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,6 +23,11 @@ namespace StuffyCare.Controllers
         private readonly User _UserFacade = new User();
         private readonly Connection con = new Connection();
         private readonly StuffyCareContext context = new StuffyCareContext();
+        private readonly IMapper _mapper;
+        public UsersController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
 
         // GET: api/<UsersController1>
         /// <summary>
@@ -39,13 +47,21 @@ namespace StuffyCare.Controllers
         /// <returns></returns>
         // GET api/<UsersController1>/5
         [HttpGet("GetOrders")]
-        public List<Orders> GetOrders(string userid)
+        public List<Models.Orders> GetOrders(string userid)
         {
-            List<Orders> listobj = new List<Orders>();
+            List<Models.Orders> listobj = new List<Models.Orders>();
             try
             {
-                listobj = _UserFacade.GetOrders(userid);
-            }
+                var repobj = _UserFacade.GetOrders(userid);
+                if (repobj != null)
+                {
+                    foreach (var order in repobj)
+                    {
+                        Models.Orders userObj = _mapper.Map<Models.Orders>(order);
+                        listobj.Add(userObj);
+                    }
+                }
+            }   
             catch(Exception e) 
             {
                 Console.WriteLine(e.Message);
@@ -59,19 +75,23 @@ namespace StuffyCare.Controllers
         /// <param name="emailid"></param>
         /// <returns></returns>
         [HttpGet("GetUser")]
-        public Users GetUser(string emailid)
+        public Models.Users GetUser(string emailid)
         {
             Users obj = new Users();
+            Models.Users userObj = new Models.Users();
             try
             {
-                obj = _UserFacade.GetUser(emailid);
+                
+                var repobj = _UserFacade.GetUser(emailid);
+                userObj = _mapper.Map<Models.Users>(repobj);
+
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 obj = null;
             }
-            return obj;
+            return userObj;
         }
         /// <summary>
         /// Api to get all the appointments placed by the User
@@ -79,12 +99,21 @@ namespace StuffyCare.Controllers
         /// <param name="userid"></param>
         /// <returns></returns>
         [HttpGet("GetAppointments")]
-        public List<Appointments> GetAppointments(string userid)
+        public List<Models.Appointments> GetAppointments(string userid,string petid)
         {
-            List<Appointments> listobj = new List<Appointments>();
+            List<Models.Appointments> listobj = new List<Models.Appointments>();
             try
             {
-                listobj = _UserFacade.GetAppointments(userid);
+                
+                var repobj = _UserFacade.GetAppointments(userid,petid);
+                if (repobj != null)
+                {
+                    foreach (var Appointment in repobj)
+                    {
+                        Models.Appointments Obj = _mapper.Map<Models.Appointments>(Appointment);
+                        listobj.Add(Obj);
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -124,6 +153,10 @@ namespace StuffyCare.Controllers
             var status = "Login failed";
             try
             {
+                if (users.Email == "")
+                {
+                    users.Email = users.Pno;
+                }
                 status = _UserFacade.Auth(users.Email,con.Encrypt( users.Pass));
             }
             catch (Exception e)
@@ -133,7 +166,34 @@ namespace StuffyCare.Controllers
             }
             return status;
         }
+        [HttpPost("AddAppointment")]
+        public string AddAppointment([FromBody] Models.Appointments appointments)
+        {
+            var status = "Adding appointment failed";
+            try
+            {
+                var app = new EFModels.Appointments()
+                {
+                    Aptid = appointments.Aptid,
+                    Servicetype = appointments.Servicetype,
+                    Dt = appointments.Dt,
+                    Address = appointments.Address,
+                    Id = appointments.Id,
+                    Message = appointments.Message,
+                    Pno = appointments.Pno,
+                    Userid = appointments.Userid
+                }
+                ;
 
-       
+                status = _UserFacade.AddAppointments(app);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                status = "Adding appointment failed";
+            }
+            return status;
+        }
+
     }
 }
