@@ -407,7 +407,7 @@ namespace StuffyCare.Controllers
             return status;
         }
         /// <summary>
-        /// To delete an item from the wishlist of an user
+        /// To delete an item from the wishlist of an users
         /// </summary>
         /// <param name="wishlist"></param>
         /// <returns></returns>
