@@ -17,6 +17,7 @@ namespace StuffyCare.EFModels
 
         public virtual Pets Pet { get; set; }
         public virtual Users User { get; set; }
+
         public Appointments()
         {
 

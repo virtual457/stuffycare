@@ -42,16 +42,16 @@ namespace StuffyCare.EFModels
             modelBuilder.Entity<Admins>(entity =>
             {
                 entity.HasKey(e => e.Adminid)
-                    .HasName("PK__admins__AD040D7E8EA7239E");
+                    .HasName("PK__admins__AD040D7E737D2C11");
 
                 entity.ToTable("admins");
 
                 entity.HasIndex(e => e.Email)
-                    .HasName("UQ__admins__AB6E61641BA1316E")
+                    .HasName("UQ__admins__AB6E61640516F9EC")
                     .IsUnique();
 
                 entity.HasIndex(e => e.Pno)
-                    .HasName("UQ__admins__DD37C148749D453C")
+                    .HasName("UQ__admins__DD37C14835FACE17")
                     .IsUnique();
 
                 entity.Property(e => e.Adminid)
@@ -129,18 +129,18 @@ namespace StuffyCare.EFModels
                 entity.HasOne(d => d.Pet)
                     .WithMany(p => p.Appointments)
                     .HasForeignKey(d => d.Petid)
-                    .HasConstraintName("FK__appointme__petid__0C3D5C38");
+                    .HasConstraintName("FK__appointme__petid__5CE34ED1");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Appointments)
                     .HasForeignKey(d => d.Userid)
-                    .HasConstraintName("FK__appointme__useri__0B4937FF");
+                    .HasConstraintName("FK__appointme__useri__5BEF2A98");
             });
 
             modelBuilder.Entity<Authvendors>(entity =>
             {
                 entity.HasKey(e => e.Authvendorsid)
-                    .HasName("PK__authvend__6C0A64B291ED5B0C");
+                    .HasName("PK__authvend__6C0A64B2EEE370B6");
 
                 entity.ToTable("authvendors");
 
@@ -172,9 +172,9 @@ namespace StuffyCare.EFModels
 
             modelBuilder.Entity<Cart>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("cart");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Itemid)
                     .HasColumnName("itemid")
@@ -189,20 +189,20 @@ namespace StuffyCare.EFModels
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Item)
-                    .WithMany()
+                    .WithMany(p => p.Cart)
                     .HasForeignKey(d => d.Itemid)
-                    .HasConstraintName("FK__cart__itemid__344B4D92");
+                    .HasConstraintName("FK__cart__itemid__06D9889D");
 
                 entity.HasOne(d => d.User)
-                    .WithMany()
+                    .WithMany(p => p.Cart)
                     .HasForeignKey(d => d.Userid)
-                    .HasConstraintName("FK__cart__userid__33572959");
+                    .HasConstraintName("FK__cart__userid__05E56464");
             });
 
             modelBuilder.Entity<Items>(entity =>
             {
                 entity.HasKey(e => e.Itemid)
-                    .HasName("PK__items__56A22C92B098A3C9");
+                    .HasName("PK__items__56A22C924DC35D55");
 
                 entity.ToTable("items");
 
@@ -257,7 +257,7 @@ namespace StuffyCare.EFModels
             modelBuilder.Entity<Orders>(entity =>
             {
                 entity.HasKey(e => e.Orderid)
-                    .HasName("PK__orders__080E3775A92F5437");
+                    .HasName("PK__orders__080E3775C97265B1");
 
                 entity.ToTable("orders");
 
@@ -302,18 +302,18 @@ namespace StuffyCare.EFModels
                 entity.HasOne(d => d.Item)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.Itemid)
-                    .HasConstraintName("FK__orders__itemid__1D67E83A");
+                    .HasConstraintName("FK__orders__itemid__6E0DDAD3");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.Userid)
-                    .HasConstraintName("FK__orders__userid__1C73C401");
+                    .HasConstraintName("FK__orders__userid__6D19B69A");
             });
 
             modelBuilder.Entity<Pets>(entity =>
             {
                 entity.HasKey(e => e.Petid)
-                    .HasName("PK__pets__DDFD44A175C11C46");
+                    .HasName("PK__pets__DDFD44A121FC2FB1");
 
                 entity.ToTable("pets");
 
@@ -344,13 +344,13 @@ namespace StuffyCare.EFModels
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Pets)
                     .HasForeignKey(d => d.Userid)
-                    .HasConstraintName("FK__pets__userid__0778A71B");
+                    .HasConstraintName("FK__pets__userid__581E99B4");
             });
 
             modelBuilder.Entity<Reveiws>(entity =>
             {
                 entity.HasKey(e => e.Reveiwid)
-                    .HasName("PK__reveiws__A18903D37D34CC6A");
+                    .HasName("PK__reveiws__A18903D36BD2F746");
 
                 entity.ToTable("reveiws");
 
@@ -392,18 +392,18 @@ namespace StuffyCare.EFModels
                 entity.HasOne(d => d.Item)
                     .WithMany(p => p.Reveiws)
                     .HasForeignKey(d => d.Itemid)
-                    .HasConstraintName("FK__reveiws__itemid__2D9E5003");
+                    .HasConstraintName("FK__reveiws__itemid__7E44429C");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Reveiws)
                     .HasForeignKey(d => d.Userid)
-                    .HasConstraintName("FK__reveiws__userid__2CAA2BCA");
+                    .HasConstraintName("FK__reveiws__userid__7D501E63");
             });
 
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.HasKey(e => e.Userid)
-                    .HasName("PK__users__CBA1B257DE3984CB");
+                    .HasName("PK__users__CBA1B257A845E2C1");
 
                 entity.ToTable("users");
 
@@ -444,7 +444,7 @@ namespace StuffyCare.EFModels
             modelBuilder.Entity<Vendoritems>(entity =>
             {
                 entity.HasKey(e => e.Itemid)
-                    .HasName("PK__vendorit__56A22C9238BBFAF9");
+                    .HasName("PK__vendorit__56A22C922366C64D");
 
                 entity.ToTable("vendoritems");
 
@@ -498,13 +498,13 @@ namespace StuffyCare.EFModels
                 entity.HasOne(d => d.OwnNavigation)
                     .WithMany(p => p.Vendoritems)
                     .HasForeignKey(d => d.Own)
-                    .HasConstraintName("FK__vendoritems__own__25FD2E3B");
+                    .HasConstraintName("FK__vendoritems__own__76A320D4");
             });
 
             modelBuilder.Entity<Vendors>(entity =>
             {
                 entity.HasKey(e => e.Vendorid)
-                    .HasName("PK__vendors__EC64C0BB27516638");
+                    .HasName("PK__vendors__EC64C0BBB0A6E422");
 
                 entity.ToTable("vendors");
 
@@ -544,9 +544,9 @@ namespace StuffyCare.EFModels
 
             modelBuilder.Entity<Wishlist>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("wishlist");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Itemid)
                     .HasColumnName("itemid")
@@ -559,14 +559,14 @@ namespace StuffyCare.EFModels
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Item)
-                    .WithMany()
+                    .WithMany(p => p.Wishlist)
                     .HasForeignKey(d => d.Itemid)
-                    .HasConstraintName("FK__wishlist__itemid__316EE0E7");
+                    .HasConstraintName("FK__wishlist__itemid__0308F7B9");
 
                 entity.HasOne(d => d.User)
-                    .WithMany()
+                    .WithMany(p => p.Wishlist)
                     .HasForeignKey(d => d.Userid)
-                    .HasConstraintName("FK__wishlist__userid__307ABCAE");
+                    .HasConstraintName("FK__wishlist__userid__0214D380");
             });
 
             OnModelCreatingPartial(modelBuilder);

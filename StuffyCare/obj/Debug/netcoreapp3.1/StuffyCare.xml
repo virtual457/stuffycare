@@ -87,34 +87,97 @@
             Api to get orders placed by that user
             </summary>
             <param name="userid"></param>
-            <returns></returns>
+            <returns> a list of orders placed by the user</returns>
         </member>
         <member name="M:StuffyCare.Controllers.UsersController.GetUser(System.String)">
             <summary>
             To retreive the current details of the user
             </summary>
             <param name="emailid"></param>
-            <returns></returns>
-        </member>
-        <member name="M:StuffyCare.Controllers.UsersController.GetAppointments(System.String,System.String)">
-            <summary>
-            Api to get all the appointments placed by the User
-            </summary>
-            <param name="userid"></param>
-            <returns></returns>
+            <returns>The user details of that user</returns>
         </member>
         <member name="M:StuffyCare.Controllers.UsersController.AddUser(StuffyCare.Models.Users)">
             <summary>
             Post request to add user to the user table
             </summary>
             <param name="users"></param>
+            <returns>a string corresponding to the operation</returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.GetAppointments(System.String,System.String)">
+            <summary>
+            Api to get all the appointments placed by the User
+            </summary>
+            <param name="userid" pet="petid"></param>
+            <returns>a list of appointments placed by that user for that pet</returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.AddAppointment(StuffyCare.Models.Appointments)">
+            <summary>
+            To add an appointment
+            </summary>
+            <param name="appointments"></param>
             <returns></returns>
         </member>
-        <member name="M:StuffyCare.Controllers.UsersController.AuthUser(StuffyCare.Models.Users)">
+        <member name="M:StuffyCare.Controllers.UsersController.GetPets(System.String)">
             <summary>
-            post request to authenticate user
+            To get the list of pets for that user
             </summary>
-            <param name="users"></param>
+            <param name="userid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.AddPet(StuffyCare.Models.Pets)">
+            <summary>
+            To add a pet to its respective user
+            </summary>
+            <param name="pet"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.DeletePet(System.String)">
+             <summary>
+            To remove the pet from user
+             </summary>
+             <param name="petid"></param>
+             <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.GetCart(System.String)">
+            <summary>
+            To get cart details fo the user
+            </summary>
+            <param name="userid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.AddCart(StuffyCare.Models.Cart)">
+            <summary>
+            To add an item to cart of that user
+            </summary>
+            <param name="cart"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.DeleteCart(StuffyCare.Models.Cart)">
+            <summary>
+            To Delete item from cart of that user
+            </summary>
+            <param name="cart"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.GetWishlist(System.String)">
+            <summary>
+            To get the wishlist of items of the user
+            </summary>
+            <param name="userid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.AddWishlist(StuffyCare.Models.Wishlist)">
+            <summary>
+            To add an item to the wishlist of the user
+            </summary>
+            <param name="wishlist"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StuffyCare.Controllers.UsersController.DeleteWishlist(StuffyCare.Models.Wishlist)">
+            <summary>
+            To delete an item from the wishlist of an user
+            </summary>
+            <param name="wishlist"></param>
             <returns></returns>
         </member>
         <member name="M:StuffyCare.Controllers.VendorsController.Get">

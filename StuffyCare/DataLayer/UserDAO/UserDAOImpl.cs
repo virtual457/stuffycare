@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Extensions.Configuration;
 using StuffyCare.EFModels;
 using StuffyCare.Facade;
@@ -190,6 +192,219 @@ namespace StuffyCare.DataLayer.UserDAO
                 throw e;
             }
             return listobj;
+        }
+
+        public string AddToCart(Cart cart)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string AddPet(Pets pet)
+        {
+            var str = "could not add pet";
+            try
+            {
+                using (SqlConnection sqlConnection = new SqlConnection())
+                {
+                    //sqlConnection.ConnectionString = _configuration.GetConnectionString("DefaultConnection");
+                    sqlConnection.ConnectionString = ConStr;
+                    sqlConnection.Open();
+                    using (var cmd = new SqlCommand("add_pet", sqlConnection))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@userid", pet.Userid);
+                        cmd.Parameters.AddWithValue("@name", pet.Name);
+                        cmd.Parameters.AddWithValue("@dob", pet.Dob);
+                        var _output = cmd.Parameters.Add("@ret", SqlDbType.VarChar, 100);
+                        _output.Direction = ParameterDirection.Output;
+                        cmd.ExecuteScalar();
+                        str = _output.Value.ToString();
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                str = e.Message;
+                throw;
+                
+            }
+            return str;
+        }
+
+        public string DelPet(Pets pet)
+        {
+            var str = string.Empty;
+            try
+            {
+                var dbpet = context.Pets.Find(pet.Petid);
+                if (dbpet != null)
+                {
+                    context.Pets.Remove(dbpet);
+                    context.SaveChanges();
+                    str = "Sucessfully deleted";
+                }
+                else
+                {
+                    str = "Pet doesnt exist";
+                }
+            }
+            catch (Exception e)
+            {
+                str = e.Message;
+                throw;
+            };
+            return str;
+        }
+
+        public string AddToWishlist(Wishlist wishlist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Pets> GetPet(string userid)
+        {
+            List<Pets> listobj = new List<Pets>();
+            try
+            {
+                listobj = (from pet in context.Pets
+                           where pet.Userid == userid
+                           select pet
+                         ).ToList();
+            }
+            catch (Exception)
+            {
+                listobj = null;
+                throw;
+            }
+            return listobj;
+        }
+
+        public List<Cart> GetCart(string userid)
+        {
+            List<Cart> retobj = new List<Cart>();
+            try
+            {
+
+                retobj = (from cart in context.Cart
+                          where cart.Userid == userid
+                          select cart
+                            ).ToList();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return retobj;
+        }
+
+        public string Addcart(Cart cart)
+        {
+            var str = string.Empty;
+            try
+            {
+                context.Cart.Add(cart);
+                context.SaveChangesAsync();
+                str = "sucessfully added";
+            }
+            catch (Exception e)
+            {
+                str = e.Message;
+                throw (e);
+            }
+            return str;
+        }
+
+        public string DelCart(Cart cart)
+        {
+            var str = string.Empty;
+            try
+            {
+                var dbcart = (from c in context.Cart
+                             where c.Itemid==cart.Itemid && c.Userid==cart.Userid
+                             select c).FirstOrDefault();
+                if (dbcart != null)
+                {
+                    context.Cart.Remove(dbcart);
+                    context.SaveChanges();
+                    str = "Sucessfully deleted";
+                }
+                else
+                {
+                    str = "cart item doesnt exist";
+                }
+            }
+            catch (Exception e)
+            {
+                str = e.Message;
+                throw;
+            };
+            return str;
+        }
+
+        public List<Wishlist> GetWishlist(string userid)
+        {
+            List<Wishlist> retobj = new List<Wishlist>();
+            try
+            {
+
+                retobj = (from wishlist in context.Wishlist
+                          where wishlist.Userid == userid
+                          select wishlist
+                            ).ToList();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return retobj;
+        }
+
+        public string AddWishlist(Wishlist wishlist)
+        {
+            var str = string.Empty;
+            try
+            {
+                context.Wishlist.Add(wishlist);
+                context.SaveChangesAsync();
+                str = "sucessfully added";
+            }
+            catch (Exception e)
+            {
+                str = e.Message;
+                throw (e);
+            }
+            return str;
+        }
+
+        public string DelWishlist(Wishlist wishlist)
+        {
+            var str = string.Empty;
+            try
+            {
+                var dbwishlist = (from c in context.Wishlist
+                              where c.Itemid == wishlist.Itemid && c.Userid == wishlist.Userid
+                              select c).FirstOrDefault();
+                if (dbwishlist != null)
+                {
+                    context.Wishlist.Remove(dbwishlist);
+                    context.SaveChanges();
+                    str = "Sucessfully deleted";
+                }
+                else
+                {
+                    str = "wishlist item doesnt exist";
+                }
+            }
+            catch (Exception e)
+            {
+                str = e.Message;
+                throw;
+            };
+            return str;
         }
     }
 }

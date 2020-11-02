@@ -7,8 +7,10 @@ namespace StuffyCare.EFModels
     {
         public Items()
         {
+            Cart = new HashSet<Cart>();
             Orders = new HashSet<Orders>();
             Reveiws = new HashSet<Reveiws>();
+            Wishlist = new HashSet<Wishlist>();
         }
 
         public int Id { get; set; }
@@ -24,7 +26,9 @@ namespace StuffyCare.EFModels
         public string Own { get; set; }
         public string Photo { get; set; }
 
+        public virtual ICollection<Cart> Cart { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }
         public virtual ICollection<Reveiws> Reveiws { get; set; }
+        public virtual ICollection<Wishlist> Wishlist { get; set; }
     }
 }

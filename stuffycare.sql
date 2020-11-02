@@ -223,15 +223,21 @@ create procedure add_pet
 @ret varchar(200) out
 as
 begin
+		set @ret ='adding pet failed'
 		if(exists(select userid from users where users.userid=@userid ))
-		begin
-			insert into pets values(@userid,@name,convert(datetime,@dob))
-		end
+			begin
+				insert into pets values(@userid,@name,convert(datetime,@dob))
+				set @ret = 'pet added sucessfully'
+			end
 		else
-		begin
-			set @ret = 'Userid doesnt exist'
-		end
+			begin
+				set @ret = 'Userid doesnt exist'
+			end
+	select @ret
 end
+go
+declare @ret varchar(max)
+exec add_pet 'U0000000001','Blacky','20100302',@ret out
 
 --////////////////////////////////////////////////////////////////////////////////////////////
 --Appointment part of database begins
@@ -848,6 +854,7 @@ begin
 		begin
 			set @ret='Item id doesnt exist'
 		end
+	select @ret
 end
 
 --///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -856,11 +863,12 @@ end
 --drop table reveiws
 go
 create table wishlist
-(
+(id int not null Identity(1,1) primary key,
 userid varchar(11) references users(userid),
 itemid varchar(11) references items(itemid)
 )
 go
+insert into wishlist values('U0000000001','I0000000001')
 --///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 --cart part of the database
 --//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -868,11 +876,13 @@ go
 go
 create table cart
 (
+id int not null Identity(1,1) primary key,
 userid varchar(11) references users(userid),
 itemid varchar(11) references items(itemid),
 quantity int
 )
 go
+insert into cart values('U0000000001','I0000000001',5)
 --////////////////////////////////////////////////////////////////
 --
 --//////////////////////////////////////////////
@@ -884,3 +894,5 @@ select * from items
 select * from orders
 select * from appointments
 select * from pets
+select * from cart
+select * from wishlist
