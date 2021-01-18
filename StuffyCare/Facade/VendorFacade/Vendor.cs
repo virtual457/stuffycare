@@ -1,4 +1,7 @@
 ﻿using StuffyCare.DataLayer;
+using StuffyCare.EFModels;
+using System;
+using System.Collections.Generic;
 
 namespace StuffyCare.Facade
 {
@@ -7,13 +10,140 @@ namespace StuffyCare.Facade
         private readonly DataLayer.VendorDAO.IVendorDAO VendorDao = DataAccess.VendorDAO;
         public string AuthVendor(string email, string pass)
         {
-            return VendorDao.Auth(email, pass);
+            try
+            {
+                return VendorDao.Auth(email, pass);
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
-        public string Create(string email, string pass, string pno)
+        public Vendors GetVendor(string vendorid)
         {
-            return VendorDao.AddVendor(email, pass, pno);
+            try
+            {
+                return VendorDao.GetVendor(vendorid);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }        
         }
+        public string Create(Vendors vendor)
+        {
+            try
+            {
+                return VendorDao.AddVendor(vendor);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+        public string AddVendorItem(Items item)
+        {
+            try
+            {
+                return VendorDao.VendorAddItem(item);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+        public string GetVendorId(string emailorphone)
+        {
+            try
+            {
+                return VendorDao.GetVendorId(emailorphone);
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+        public List<Vendorservices> GetServices(string vendorid)
+        {
+            try
+            {
+                return VendorDao.GetServices(vendorid);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+        public string AddServices(Vendorservices services)
+        {
+            try
+            {
+                return VendorDao.AddServices(services);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         
+        }
+        public string DelServices(Vendorservices services)
+        {
+            try
+            {
+                return VendorDao.DelServices(services);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+        public string UpdateServices(Vendorservices services)
+        {
+            try
+            {
+                return VendorDao.UpdateServices(services);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        
+        }
+        public List<Vendorservices> GetVendorsByServiceName(string name)
+        {
+            try
+            {
+                return VendorDao.GetVendorByServices(name);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+        public List<Appointments> GetAppointmentsByVendorid(string vendorid)
+        {
+            try
+            {
+                return VendorDao.GetVendorAppointments(vendorid);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
     }
 }
 

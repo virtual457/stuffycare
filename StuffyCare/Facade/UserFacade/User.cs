@@ -13,19 +13,63 @@ namespace StuffyCare.Facade
 
         public string Auth(string email, string pass)
         {
-            return UserDao.Auth(email, pass);
+            try
+            {
+                return UserDao.Auth(email, pass);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            
         }
-        public string Create(string email, string pass, string pno)
+        public string Create(Users user)
         {
-            return UserDao.AddUser(email, pass, pno);
+            try
+            {
+                return UserDao.AddUser(user);
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
         public List<Orders> GetOrders(string userid)
         {
-            return UserDao.GetOrder(userid);
+            try
+            {
+                return UserDao.GetOrder(userid);
+            }
+            catch(Exception e)
+            { 
+                throw e;
+            }
         }
-        public Users GetUser(string emailid)
+        public string AddOrder(Orders order)
         {
-            return UserDao.GetUser(emailid);
+            var str = string.Empty;
+            try
+            {
+                str = UserDao.AddOrder(order);
+            }
+            catch (Exception e)
+            {
+                str = e.Message;
+                throw e;
+            }
+            return str;
+        }
+        public Users GetUser(string userid)
+        {
+            try
+            {
+                return UserDao.GetUser(userid);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
         public string AddPet(Pets pet)
         {
@@ -37,7 +81,7 @@ namespace StuffyCare.Facade
             catch (Exception e)
             {
                 str = e.Message;
-                throw;
+                throw e;
             }
             return str;
         }
@@ -51,7 +95,21 @@ namespace StuffyCare.Facade
             catch (Exception e)
             {
                 str = e.Message;
-                throw;
+                throw e;
+            }
+            return str;
+        }
+        public string Updatepet(Pets pet)
+        {
+            var str = string.Empty;
+            try
+            {
+                str = UserDao.UpdatePet(pet);
+            }
+            catch (Exception e)
+            {
+                str = e.Message;
+                throw e;
             }
             return str;
         }
@@ -65,41 +123,222 @@ namespace StuffyCare.Facade
             catch (Exception e)
             {
                 listobj = null;
-                throw;
+                throw e;
             }
             return listobj;
         }
         public string AddAppointments(Appointments userid)
         {
-            return UserDao.AddAppointments(userid);
+            try
+            {
+                return UserDao.AddAppointments(userid);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            
         }
         public List<Appointments> GetAppointments(string userid, string petid)
         {
-            return UserDao.GetAppointments(userid, petid);
+            try
+            {
+                return UserDao.GetAppointments(userid, petid);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            
         }
         public List<Cart> GetCart(string userid)
         {
-            return UserDao.GetCart(userid);
+            try
+            {
+                return UserDao.GetCart(userid);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
         public string AddCart(Cart cart)
         {
-            return UserDao.Addcart(cart);
+            try
+            {
+                return UserDao.Addcart(cart);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            
         }
         public string DelCart(Cart cart)
         {
-            return UserDao.DelCart(cart);
+            try
+            {
+                return UserDao.DelCart(cart);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            
         }
         public List<Wishlist> GetWishlist(string userid)
         {
-            return UserDao.GetWishlist(userid);
+            try
+            {
+                return UserDao.GetWishlist(userid);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
         public string AddWishlist(Wishlist wishlist)
         {
-            return UserDao.AddWishlist(wishlist);
+            try
+            {
+                return UserDao.AddWishlist(wishlist);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            
         }
         public string DelWishlist(Wishlist wishlist)
         {
-            return UserDao.DelWishlist(wishlist);
+            try
+            {
+                return UserDao.DelWishlist(wishlist);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            
+        }
+        public string UpdateCart(Cart cart)
+        {
+            string res;
+            try
+            {
+                res = UserDao.UpdateCart(cart);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            return res;
+        }
+        public string UpdatePass(string emailorphone,string password)
+        {
+            string res="Update Failed";
+            try
+            {
+                res = UserDao.ChangePassword(emailorphone,password);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            return res;
+        }
+        public string GetUserId(string emailorphone)
+        {
+            try
+            {
+                return UserDao.GetUserId(emailorphone);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            
+        }
+        public string UpdateUser(Users user)
+        {
+            var str = string.Empty;
+            try
+            {
+                str = UserDao.UpdateUser(user);
+            }
+            catch (Exception e)
+            {
+                str = e.Message;
+                throw e;
+            }
+            return str;
+        }
+        public string AddAddress(Address address)
+        {
+            var str = string.Empty;
+            try
+            {
+                str = UserDao.AddAddress(address);
+            }
+            catch (Exception e)
+            {
+                str = e.Message;
+                throw e;
+            }
+            return str;
+        }
+        public string DeleteAddress(Address address)
+        {
+            var str = string.Empty;
+            try
+            {
+                str = UserDao.DelAddress(address);
+            }
+            catch (Exception e)
+            {
+                str = e.Message;
+                throw e;
+            }
+            return str;
+        }
+        public string Updateaddress(Address address)
+        {
+            var str = string.Empty;
+            try
+            {
+                str = UserDao.UpdateAddress(address);
+            }
+            catch (Exception e)
+            {
+                str = e.Message;
+                throw e;
+            }
+            return str;
+        }
+        public List<Address> GetAddress(string userid)
+        {
+            var listobj = new List<Address>();
+            try
+            {
+                listobj = UserDao.GetAddress(userid);
+            }
+            catch (Exception e)
+            {
+                listobj = null;
+                throw e;
+            }
+            return listobj;
         }
     }
 }

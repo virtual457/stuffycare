@@ -1,0 +1,12 @@
+C:\Users\chand\source\repos\Saitiate\WoofyTails\WoofyTailsDALLayer\bin\Debug\netcoreapp3.1\WoofyTailsDALLayer.deps.json
+C:\Users\chand\source\repos\Saitiate\WoofyTails\WoofyTailsDALLayer\bin\Debug\netcoreapp3.1\WoofyTailsDALLayer.runtimeconfig.json
+C:\Users\chand\source\repos\Saitiate\WoofyTails\WoofyTailsDALLayer\bin\Debug\netcoreapp3.1\WoofyTailsDALLayer.runtimeconfig.dev.json
+C:\Users\chand\source\repos\Saitiate\WoofyTails\WoofyTailsDALLayer\bin\Debug\netcoreapp3.1\WoofyTailsDALLayer.dll
+C:\Users\chand\source\repos\Saitiate\WoofyTails\WoofyTailsDALLayer\bin\Debug\netcoreapp3.1\WoofyTailsDALLayer.pdb
+C:\Users\chand\source\repos\Saitiate\WoofyTails\WoofyTailsDALLayer\obj\Debug\netcoreapp3.1\WoofyTailsDALLayer.csprojAssemblyReference.cache
+C:\Users\chand\source\repos\Saitiate\WoofyTails\WoofyTailsDALLayer\obj\Debug\netcoreapp3.1\WoofyTailsDALLayer.AssemblyInfoInputs.cache
+C:\Users\chand\source\repos\Saitiate\WoofyTails\WoofyTailsDALLayer\obj\Debug\netcoreapp3.1\WoofyTailsDALLayer.AssemblyInfo.cs
+C:\Users\chand\source\repos\Saitiate\WoofyTails\WoofyTailsDALLayer\obj\Debug\netcoreapp3.1\WoofyTailsDALLayer.csproj.CoreCompileInputs.cache
+C:\Users\chand\source\repos\Saitiate\WoofyTails\WoofyTailsDALLayer\obj\Debug\netcoreapp3.1\WoofyTailsDALLayer.dll
+C:\Users\chand\source\repos\Saitiate\WoofyTails\WoofyTailsDALLayer\obj\Debug\netcoreapp3.1\WoofyTailsDALLayer.pdb
+C:\Users\chand\source\repos\Saitiate\WoofyTails\WoofyTailsDALLayer\obj\Debug\netcoreapp3.1\WoofyTailsDALLayer.genruntimeconfig.cache

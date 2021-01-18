@@ -1,0 +1,9 @@
+Date Time: 10-12-2020 05:09:38 PM
+-------------------------------------------------------------
+Controller: Users
+Action: AddUser
+Message: Violation of UNIQUE KEY constraint 'usr_dup_email'. Cannot insert duplicate key in object 'dbo.users'. The duplicate key value is ().
+The statement has been terminated.
+Inner Exception: 
+-------------------------------------------------------------
+System.Web.Http.Filters.HttpActionExecutedContext

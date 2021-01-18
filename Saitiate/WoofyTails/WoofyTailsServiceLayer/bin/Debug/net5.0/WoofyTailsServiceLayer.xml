@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WoofyTailsServiceLayer</name>
+    </assembly>
+    <members>
+        <member name="M:WoofyTailsServiceLayer.Controllers.UserController.GetUser(System.String)">
+            <summary>
+            used to get details about a given userid
+            </summary>
+            <param name="userid">user id of the user for whom the details has to be fetched</param>
+            <returns>jsonresult of a list of user object containing the details of the user of the given user id</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.UserController.AddUSer(WoofyTailsBusinessLayer.APIModels.User)">
+             <summary>
+             user to add a new user details
+             </summary>
+             <remarks>
+             Instructions:
+             
+            Gender must be('M','F','O')
+            
+            roleid= 
+             1:user
+             2:vendor
+             3:sub-admin
+             4:admin
+             
+            Both email and phonenumber cannot be null    
+             
+            Sample request:
+            
+                 {
+                     "userId": "null",
+                     "firstName": "Stuffy",
+                     "lastName": "Care",
+                     "emailId": "stuffycare@example.com",
+                     "password": "stuffycare",
+                     "gender":"M",
+                     "phoneNumber": "9999999999",
+                     "image": "image string",
+                     "roleId": 4
+                 }
+             </remarks>
+             <param name="user">user object containing details of the user</param>
+             <returns>string signifying the outcome/result</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.UserController.UpdateUser(WoofyTailsBusinessLayer.APIModels.User)">
+            <summary>
+            To Update the details of the user
+            </summary>
+            <param name="user">user obect containing the new data to be modified</param>
+            <returns>Json object  signifying the status</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.UserController.DeleteUser(WoofyTailsBusinessLayer.APIModels.User)">
+            <summary>
+            To delete user details from the database(modify the isdeleted column)
+            </summary>
+            <param name="user">user object containing userid of the user to be deleted</param>
+            <returns> Json object  signifying the status</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.UserController.GetAppointment(System.String)">
+            <summary>
+            used to get details about a given appointmentid
+            </summary>
+            <param name="appointmentid">appointment id of the appointment for whom the details has to be fetched</param>
+            <returns>jsonresult of a list of appointment object containing the details of the appointment of the given appointment id</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.UserController.AddUSer(WoofyTailsBusinessLayer.APIModels.Appointment)">
+             <summary>
+             appointment to add a new appointment details
+             </summary>
+             <remarks>
+             Instructions:
+             
+            
+             </remarks>
+             <param name="appointment">appointment object containing details of the appointment</param>
+             <returns>string signifying the outcome/result</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.UserController.UpdateAppointment(WoofyTailsBusinessLayer.APIModels.Appointment)">
+            <summary>
+            To Update the details of the appointment
+            </summary>
+            <param name="appointment">appointment obect containing the new data to be modified</param>
+            <returns>Json object  signifying the status</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.UserController.DeleteAppointment(WoofyTailsBusinessLayer.APIModels.Appointment)">
+            <summary>
+            To delete appointment details from the database(modify the isdeleted column)
+            </summary>
+            <param name="appointment">appointment object containing appointmentid of the appointment to be deleted</param>
+            <returns> Json object  signifying the status</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.UserController.ValidateUser(System.String,System.String)">
+            <summary>
+            Used to validate user credentials
+            </summary>
+            <param name="emailorphone">email or phone number of the user</param>
+            <param name="password">password of the user</param>
+            <returns></returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.UserController.GetPet(System.String,System.String)">
+            <summary>
+            used to fetch the list of pets of an given user id
+            and filter the result set with the given petid
+            </summary>
+            <param name="userid">user id of the user</param>
+            <param name="petid">pet id or all if they want all pets of an user</param>
+            <returns> json result of a list of pet objects containg the pets of the given user id</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.UserController.AddPet(WoofyTailsBusinessLayer.APIModels.Pet)">
+            <summary>
+            To add a pet data of user to the database
+            </summary>
+            <param name="pet">pet object containing data about the pet</param>
+            <returns>json Object signifies the result</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.UserController.UpdatePet(WoofyTailsBusinessLayer.APIModels.Pet)">
+            <summary>
+            To update pet data of user in the database
+            </summary>
+            <param name="pet">pet object containing data about the pet</param>
+            <returns>JsonObject which signifies the result</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.UserController.DeletePet(WoofyTailsBusinessLayer.APIModels.Pet)">
+            <summary>
+            To delete a pet data of user from the database
+            </summary>
+            <param name="pet">pet object containing data about the pet</param>
+            <returns>jsonObject which signifies the result</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.VendorController.GetItem(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            used to get items wrt to the params passed
+            </summary>
+            <param name="itemid">item id of the item for whom the details has to be fetched</param>
+            <param name="foranimal">for which animal the item for whom the details has to be fetched</param>
+            <param name="category">category of the item for whom the details has to be fetched</param>
+            <param name="subcategory">subcategory of the item for whom the details has to be fetched</param>
+            <param name="name">name of the item for whom the details has to be fetched</param>
+            <returns>a list of item object containing the details of the item of the given item id</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.VendorController.AddUSer(WoofyTailsBusinessLayer.APIModels.Item)">
+             <summary>
+             item to add a new item details
+             </summary>
+             <remarks>
+             Instructions:
+             
+            Items can only be added by authorized vendors
+            Sample request:
+            
+                 {
+                     
+                 }
+             </remarks>
+             <param name="item">item object containing details of the item</param>
+             <returns>string signifying the outcome/result</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.VendorController.UpdateItem(WoofyTailsBusinessLayer.APIModels.Item)">
+            <summary>
+            To Update the details of the item
+            </summary>
+            <param name="item">item obect containing the new data to be modified</param>
+            <returns>Json object  signifying the status</returns>
+        </member>
+        <member name="M:WoofyTailsServiceLayer.Controllers.VendorController.DeleteItem(WoofyTailsBusinessLayer.APIModels.Item)">
+            <summary>
+            To delete item details from the database(modify the isdeleted column)
+            </summary>
+            <param name="item">item object containing itemid of the item to be deleted</param>
+            <returns> Json object  signifying the status</returns>
+        </member>
+    </members>
+</doc>

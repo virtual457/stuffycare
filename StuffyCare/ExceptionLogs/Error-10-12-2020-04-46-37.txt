@@ -1,0 +1,8 @@
+Date Time: 10-12-2020 04:46:37 PM
+-------------------------------------------------------------
+Controller: Users
+Action: AddUser
+Message: One or more errors occurred.
+Inner Exception: System.Threading.Tasks.TaskCanceledException: A task was canceled.
+-------------------------------------------------------------
+System.Web.Http.Filters.HttpActionExecutedContext

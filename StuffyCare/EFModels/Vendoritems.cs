@@ -17,7 +17,9 @@ namespace StuffyCare.EFModels
         public int? Moa { get; set; }
         public string Own { get; set; }
         public string Photo { get; set; }
-
-        public virtual Vendors OwnNavigation { get; set; }
+        public int? Length { get; set; }
+        public int? Breadth { get; set; }
+        public int? Height { get; set; }
+        public double? Weight { get; set; }
     }
 }

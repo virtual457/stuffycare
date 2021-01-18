@@ -14,7 +14,8 @@ namespace StuffyCare.Models
         public string Status { get; set; }
         public string Method { get; set; }
         public double? Total { get; set; }
+        public int? SrOrderid { get; set; }
+        public int? SrShipmentid { get; set; }
 
-        
     }
 }

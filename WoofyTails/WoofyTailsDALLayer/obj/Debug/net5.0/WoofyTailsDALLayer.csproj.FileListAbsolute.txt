@@ -1,0 +1,15 @@
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\bin\Debug\net5.0\WoofyTailsDALLayer.deps.json
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\bin\Debug\net5.0\WoofyTailsDALLayer.runtimeconfig.json
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\bin\Debug\net5.0\WoofyTailsDALLayer.runtimeconfig.dev.json
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\bin\Debug\net5.0\WoofyTailsDALLayer.dll
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\bin\Debug\net5.0\ref\WoofyTailsDALLayer.dll
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\bin\Debug\net5.0\WoofyTailsDALLayer.pdb
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\obj\Debug\net5.0\WoofyTailsDALLayer.csprojAssemblyReference.cache
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\obj\Debug\net5.0\WoofyTailsDALLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\obj\Debug\net5.0\WoofyTailsDALLayer.AssemblyInfoInputs.cache
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\obj\Debug\net5.0\WoofyTailsDALLayer.AssemblyInfo.cs
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\obj\Debug\net5.0\WoofyTailsDALLayer.csproj.CoreCompileInputs.cache
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\obj\Debug\net5.0\WoofyTailsDALLayer.dll
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\obj\Debug\net5.0\ref\WoofyTailsDALLayer.dll
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\obj\Debug\net5.0\WoofyTailsDALLayer.pdb
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsDALLayer\obj\Debug\net5.0\WoofyTailsDALLayer.genruntimeconfig.cache

@@ -1,0 +1,15 @@
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\bin\Debug\net5.0\WoofyTailsBusinessLayer.deps.json
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\bin\Debug\net5.0\WoofyTailsBusinessLayer.dll
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\bin\Debug\net5.0\ref\WoofyTailsBusinessLayer.dll
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\bin\Debug\net5.0\WoofyTailsBusinessLayer.pdb
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\obj\Debug\net5.0\WoofyTailsBusinessLayer.csprojAssemblyReference.cache
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\obj\Debug\net5.0\WoofyTailsBusinessLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\obj\Debug\net5.0\WoofyTailsBusinessLayer.AssemblyInfoInputs.cache
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\obj\Debug\net5.0\WoofyTailsBusinessLayer.AssemblyInfo.cs
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\obj\Debug\net5.0\WoofyTailsBusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\obj\Debug\net5.0\WoofyTailsBusinessLayer.dll
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\obj\Debug\net5.0\ref\WoofyTailsBusinessLayer.dll
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\obj\Debug\net5.0\WoofyTailsBusinessLayer.pdb
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\bin\Debug\net5.0\WoofyTailsDALLayer.dll
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\bin\Debug\net5.0\WoofyTailsDALLayer.pdb
+C:\Users\chand\source\repos\WoofyTails\WoofyTailsBusinessLayer\obj\Debug\net5.0\WoofyTailsBusinessLayer.csproj.CopyComplete

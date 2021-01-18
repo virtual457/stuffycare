@@ -1,0 +1,8 @@
+Date Time: 25-11-2020 06:22:38 PM
+-------------------------------------------------------------
+Controller: Users
+Action: DeletePet
+Message: Object reference not set to an instance of an object.
+Inner Exception: 
+-------------------------------------------------------------
+System.Web.Http.Filters.HttpActionExecutedContext

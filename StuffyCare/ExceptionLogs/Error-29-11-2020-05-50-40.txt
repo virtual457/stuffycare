@@ -1,0 +1,8 @@
+Date Time: 29-11-2020 05:50:40 PM
+-------------------------------------------------------------
+Controller: Vendors
+Action: VendorAddItem
+Message: Procedure or function 'add_item' expects parameter '@packsizeingrams', which was not supplied.
+Inner Exception: 
+-------------------------------------------------------------
+System.Web.Http.Filters.HttpActionExecutedContext

@@ -14,6 +14,8 @@ namespace StuffyCare.EFModels
         public string Status { get; set; }
         public string Method { get; set; }
         public double? Total { get; set; }
+        public int? SrOrderid { get; set; }
+        public int? SrShipmentid { get; set; }
 
         public virtual Items Item { get; set; }
         public virtual Users User { get; set; }

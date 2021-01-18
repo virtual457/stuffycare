@@ -2,7 +2,6 @@
 using StuffyCare.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure.Design;
 using System.Linq;
 using System.Threading.Tasks;
 using StuffyCare.EFModels;

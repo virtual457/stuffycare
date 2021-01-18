@@ -1,0 +1,8 @@
+Date Time: 23-11-2020 12:13:28 PM
+-------------------------------------------------------------
+Controller: Admin
+Action: Create
+Message: Procedure or function 'admin_create' expects parameter '@email', which was not supplied.
+Inner Exception: 
+-------------------------------------------------------------
+System.Web.Http.Filters.HttpActionExecutedContext

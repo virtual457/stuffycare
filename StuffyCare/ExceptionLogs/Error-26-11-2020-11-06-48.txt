@@ -1,0 +1,8 @@
+Date Time: 26-11-2020 11:06:48 PM
+-------------------------------------------------------------
+Controller: Vendors
+Action: GetVendor
+Message: Object reference not set to an instance of an object.
+Inner Exception: 
+-------------------------------------------------------------
+System.Web.Http.Filters.HttpActionExecutedContext

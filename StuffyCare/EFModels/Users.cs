@@ -7,6 +7,7 @@ namespace StuffyCare.EFModels
     {
         public Users()
         {
+            Address = new HashSet<Address>();
             Appointments = new HashSet<Appointments>();
             Cart = new HashSet<Cart>();
             Orders = new HashSet<Orders>();
@@ -17,10 +18,16 @@ namespace StuffyCare.EFModels
 
         public int Id { get; set; }
         public string Userid { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
         public string Email { get; set; }
         public string Pass { get; set; }
         public string Pno { get; set; }
+        public string Image { get; set; }
+        public int? LoyaltyPoints { get; set; }
+        public bool? Isdeleted { get; set; }
 
+        public virtual ICollection<Address> Address { get; set; }
         public virtual ICollection<Appointments> Appointments { get; set; }
         public virtual ICollection<Cart> Cart { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }

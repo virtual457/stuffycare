@@ -1,0 +1,8 @@
+Date Time: 28-11-2020 01:36:41 PM
+-------------------------------------------------------------
+Controller: Users
+Action: AddPet
+Message: Procedure or function 'add_pet' expects parameter '@moreinfo', which was not supplied.
+Inner Exception: 
+-------------------------------------------------------------
+System.Web.Http.Filters.HttpActionExecutedContext

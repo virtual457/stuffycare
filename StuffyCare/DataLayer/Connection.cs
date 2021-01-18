@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -13,12 +14,12 @@ namespace StuffyCare.DataLayer
     {
         public static string GetConnectionString()
         {
-            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-            var config = builder.Build();
-            var connectionString = config.GetConnectionString("StuffyCareConnectionString");
-            return connectionString;
+            //var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+            //var config = builder.Build();
+            //var connectionString = config.GetConnectionString("StuffyCareConnectionString");
+            return ConfigurationManager.ConnectionStrings["stuffycaredb"].ConnectionString;
         }
-        
+
         public string GenerateEncryptionKey()
         {
             string EncryptionKey = string.Empty;
@@ -31,7 +32,7 @@ namespace StuffyCare.DataLayer
         }
         public string Encrypt(string clearText)
         {
-            string EncryptionKey= "XYZ1031345143";
+            string EncryptionKey = "XYZ1031345143";
             byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
             using (Aes encryptor = Aes.Create())
             {
@@ -51,5 +52,5 @@ namespace StuffyCare.DataLayer
             return clearText;
         }
     }
-    
+
 }

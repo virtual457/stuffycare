@@ -1,0 +1,8 @@
+Date Time: 25-11-2020 11:09:22 PM
+-------------------------------------------------------------
+Controller: Users
+Action: HandleErrors
+Message: The amount must be atleast INR 1.00
+Inner Exception: 
+-------------------------------------------------------------
+System.Web.Http.Filters.HttpActionExecutedContext

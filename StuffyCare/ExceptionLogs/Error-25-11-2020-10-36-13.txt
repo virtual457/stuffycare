@@ -1,0 +1,8 @@
+Date Time: 25-11-2020 10:36:13 PM
+-------------------------------------------------------------
+Controller: Users
+Action: AddUser
+Message: Procedure or function 'user_create' expects parameter '@email', which was not supplied.
+Inner Exception: 
+-------------------------------------------------------------
+System.Web.Http.Filters.HttpActionExecutedContext

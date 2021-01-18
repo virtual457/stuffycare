@@ -1,0 +1,9 @@
+Date Time: 24-11-2020 06:29:12 PM
+-------------------------------------------------------------
+Controller: Users
+Action: AddUser
+Message: String reference not set to an instance of a String.
+Parameter name: s
+Inner Exception: 
+-------------------------------------------------------------
+System.Web.Http.Filters.HttpActionExecutedContext
