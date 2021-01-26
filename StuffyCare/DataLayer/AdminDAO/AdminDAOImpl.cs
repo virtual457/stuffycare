@@ -201,7 +201,7 @@ namespace StuffyCare.DataLayer.AdminDAO
                 {
                     retobj = (from user in context.Vendors
                               join service in context.Vendorservices on user.Vendorid equals service.Vendorid
-                              where service.Name == category && user.Isauthorized==true
+                              where service.Name == category && user.Isauthorized==true && user.Isdeleted==false
                               select user
                                 ).ToList();
 
@@ -210,7 +210,7 @@ namespace StuffyCare.DataLayer.AdminDAO
                 {
                     retobj = (from user in context.Vendors
                                   //join service in context.Vendorservices on user.Vendorid equals service.Vendorid
-                              where user.Isauthorized==true
+                              where user.Isauthorized==true && user.Isdeleted == false
                               select user
                                 ).ToList();
                 }

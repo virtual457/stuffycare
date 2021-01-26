@@ -229,7 +229,7 @@ namespace StuffyCare.Controllers
             }
             return status;
         }
-        [Route("api/User/GetServices")]
+        [Route("api/Vendor/GetServices")]
         [HttpGet]
 
         public List<Models.Services> GetServices(string vendorid)
@@ -267,7 +267,7 @@ namespace StuffyCare.Controllers
         /// </summary>
         /// <param name="service"></param>
         /// <returns></returns>
-        [Route("api/User/AddServices")]
+        [Route("api/Vendor/AddServices")]
         [HttpPost]
         public string AddServices([FromBody] Models.Services service)
         {
@@ -295,7 +295,7 @@ namespace StuffyCare.Controllers
         /// </summary>
         /// <param name="service"></param>
         /// <returns></returns>
-        [Route("api/User/DeleteServices")]
+        [Route("api/Vendor/DeleteServices")]
         [HttpDelete]
         public string DeleteCart([FromBody] Models.Services service)
         {
@@ -321,7 +321,7 @@ namespace StuffyCare.Controllers
             }
             return str;
         }
-        [Route("api/User/UpdateServices")]
+        [Route("api/Vendor/UpdateServices")]
         [HttpPut]
         public string UpdateServices([FromBody] Models.Services service)
         {
@@ -344,7 +344,7 @@ namespace StuffyCare.Controllers
             }
             return str;
         }
-        [Route("api/User/GetVendorsByServiceName")]
+        [Route("api/Vendor/GetVendorsByServiceName")]
         [HttpGet]
 
         public List<Models.Services> GetVendorsByServiceName(string name)
@@ -377,7 +377,7 @@ namespace StuffyCare.Controllers
             }
             return listobj;
         }
-        [Route("api/User/GetAppointmentsByVendorid")]
+        [Route("api/Vendor/GetAppointmentsByVendorid")]
         [HttpGet]
 
         public List<Models.Appointments> GetAppointmentsByVendorid(string vendorid)
